@@ -13,6 +13,12 @@ public abstract class Pessoa {
         this.endereco = endereco;
     }
     public Pessoa(){}
+    
+    public Pessoa(String nome, String cpf){
+        this.nome = nome;
+        this.cpf = cpf;
+    }
+       
 
     //Getters
     public String getNome(){
@@ -31,7 +37,7 @@ public abstract class Pessoa {
         return endereco;
     }
 
-    //Setters
+
     public void setNome(String nome){
         if (this.nome != null){
             this.nome = nome.replaceAll("[[^\\\\p{L}\\\\s]]", "");
