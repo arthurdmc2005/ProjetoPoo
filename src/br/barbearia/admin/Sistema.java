@@ -4,13 +4,29 @@
  */
 package br.barbearia.admin;
 
-/**
- *
- * @author Arthur
- */
+import br.barbearia.admin.GestaoClientes;
+import br.barbearia.admin.GestaoFuncionarios;
+import br.barbearia.usuarios.Funcionario;
+
+
 public class Sistema {
     public static void main(String[] args) {
-        System.out.println("Hellow World");
+        GestaoFuncionarios gestao = new GestaoFuncionarios();
+        
+        Funcionario f1 = new Funcionario("Arthur", "12345670910","Barbeiro",2500.0);
+        gestao.adicionarFuncionario(f1);
+        
+        gestao.listarTodosFuncionarios();
+        
+        gestao.atualizarFuncionario("12345678900","Gerente",3500);
+        
+        gestao.listarTodosFuncionarios();
+        
+        Funcionario buscado = gestao.buscarFuncionariosPorCpf("12345678900");
+        if(buscado != null){
+            System.out.println("Funcionário encontrado: " + buscado.getNome() + "Cargo: " + buscado.getCargo());
+        }
+        
         
     }
     

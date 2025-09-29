@@ -25,7 +25,6 @@ public class GestaoFuncionarios {
         try (Reader reader = new FileReader(CAMINHO_JSON)) {
             Type tipoLista = new TypeToken<ArrayList<Funcionario>>() {}.getType();
             listaDeFuncionarios = new Gson().fromJson(reader, tipoLista);
-            // Garante que a lista não seja nula se o arquivo estiver vazio
             if (listaDeFuncionarios == null) {
                 listaDeFuncionarios = new ArrayList<>();
             }
@@ -64,7 +63,7 @@ public class GestaoFuncionarios {
     public void adicionarFuncionario(Funcionario novoFuncionario) {
         if (buscarFuncionariosPorCpf(novoFuncionario.getCpf()) == null) {
             this.listaDeFuncionarios.add(novoFuncionario);
-            salvarDados(); // Salva a lista atualizada no arquivo JSON
+            salvarDados(); 
             System.out.println("Funcionário adicionado com sucesso!");
         } else {
             System.out.println("Erro: Já existe um funcionário cadastrado com o CPF " + novoFuncionario.getCpf());
@@ -82,7 +81,7 @@ public class GestaoFuncionarios {
             funcionarioParaAtualizar.setSalario(novoSalario);
           
             
-            salvarDados(); // 4. Salva a lista com os dados atualizados no JSON
+            salvarDados();
             System.out.println("Dados do funcionário " + funcionarioParaAtualizar.getNome() + " atualizados.");
         } else {
             System.out.println("Funcionário com CPF " + cpf + " não encontrado.");
