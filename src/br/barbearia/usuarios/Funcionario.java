@@ -1,26 +1,17 @@
 package br.barbearia.usuarios;
 
 public class Funcionario extends Pessoa {
-    private long id;
+    private int id;
     private String cargo;
     private double salario;
 
-   
-    public Funcionario(String nome, String cpf, long id, String cargo, double salario) {
-        super(nome, cpf); 
+    public Funcionario(String nome, String cpf, int id, String cargo, double salario) {
+        super(nome, cpf);
         this.id = id;
         this.cargo = cargo;
         this.salario = salario;
     }
 
-    
-    public Funcionario(String nome, String cpf, String cargo, double salario) {
-        super(nome, cpf); 
-        this.cargo = cargo;
-        this.salario = salario;
-    }
-
-   
     public String getCargo() {
         return cargo;
     }
