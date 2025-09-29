@@ -68,5 +68,14 @@ public class NotaFiscal {
     public double getValortotal() { 
         return valortotal; 
     }
+    
+    @Override
+    public String toString() {
+        return "Nota Fiscal [ID: " + id +
+               ", Cliente: " + cliente.getNome() +
+               ", Data: " + dataemissao +
+               ", Valor Total: R$ " + String.format("%.2f", valortotal) +
+               "]";
+    }
 
 }
