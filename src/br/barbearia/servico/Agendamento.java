@@ -12,14 +12,16 @@ public class Agendamento {
     private double valor;
     private Cliente cliente;
     private Funcionario funcionario;
+    private Servico servico;
 
-    public Agendamento(int id, LocalDateTime datahora, String status, double valor, Cliente cliente, Funcionario funcionario){
+    public Agendamento(int id, LocalDateTime datahora, String status, double valor, Cliente cliente, Funcionario funcionario, Servico servico){
         this.id = id;
         this.datahora = datahora;
         this.status = status;
         this.valor = valor;
         this.cliente = cliente;
         this.funcionario = funcionario;
+        this.servico = servico;
     }
 
     public int getId(){
@@ -69,6 +71,14 @@ public class Agendamento {
     public void setFuncionario(Funcionario funcionario){
         this.funcionario = funcionario;
     }
+    
+    public Servico getServico(){
+        return servico;
+    }
+    
+    public void setServico(Servico servico){
+        this.servico = servico;
+    }
 
     public void confirmar() {
         this.status = "confirmado";
@@ -93,6 +103,7 @@ public class Agendamento {
     public String toString() {
         return "Agendamento{" +
                 "Cliente='" + cliente.getNome() + '\'' +
+                ", Serviço='" + servico.getDescricao() + '\'' +
                 ", Barbeiro='" + funcionario.getNome() + '\'' +
                 ", Data=" + datahora +
                 ", Status='" + status + '\'' +
