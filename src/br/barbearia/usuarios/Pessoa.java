@@ -71,4 +71,16 @@ public abstract class Pessoa {
             this.endereco = null;
         }
     }
+    
+    public String getCpfAnonimizado(){
+        if(cpf == null || cpf.length() != 11)
+            System.out.println("Formato de cpf incorreto");
+          return cpf.substring(0, 3) + "..-" + cpf.substring(9, 11);
+    }
+    
+    public String getTelefoneAnonimizado(){
+        if(telefone == null || telefone.length() != 11)
+            System.out.println("Formato incorreto(31999999999)");
+        return "Não encontrado";
+    }
 }
