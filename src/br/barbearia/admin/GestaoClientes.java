@@ -110,6 +110,6 @@ public class GestaoClientes {
     public void listarTodosOsClientes() {
         for (Cliente cliente : this.listaDeClientes) {
             System.out.println(cliente);
-        }
+        } 
     }
 }

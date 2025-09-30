@@ -62,7 +62,7 @@ public class GestaoFuncionarios {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    } 
 
     /**
      * Pesquisa os funcionarios por cpf e armazena em funcionario ( etiqueta ) 
@@ -127,3 +127,22 @@ public class GestaoFuncionarios {
         System.out.println("---------------------------");
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
