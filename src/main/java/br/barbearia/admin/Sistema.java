@@ -4,8 +4,6 @@
  */
 package br.barbearia.admin;
 
-import br.barbearia.admin.GestaoClientes;
-import br.barbearia.admin.GestaoFuncionarios;
 import br.barbearia.usuarios.Funcionario;
 
 
