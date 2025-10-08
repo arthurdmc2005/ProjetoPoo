@@ -12,4 +12,7 @@ public class ClienteDAO {
     private static final String USUARIO = "barbearia";
     private static final String SENHA = "2001310post";
 
+
+
+
 }
