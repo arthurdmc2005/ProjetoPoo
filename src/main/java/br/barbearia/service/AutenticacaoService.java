@@ -1,4 +1,4 @@
-package br.barbearia.Login;
+package br.barbearia.service;
 
 /**
  * Classe responsável por representrar os dados de um usuário.

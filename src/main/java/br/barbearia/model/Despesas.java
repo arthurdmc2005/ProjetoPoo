@@ -1,4 +1,4 @@
-package br.barbearia.financeiro;
+package br.barbearia.model;
 
 import java.time.LocalDate;
 import java.math.BigDecimal;

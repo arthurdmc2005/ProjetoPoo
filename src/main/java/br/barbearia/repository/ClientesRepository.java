@@ -1,6 +1,6 @@
-package br.barbearia.admin;
+package br.barbearia.repository;
 
-import br.barbearia.usuarios.Cliente;
+import br.barbearia.model.Cliente;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -20,7 +20,7 @@ import java.util.List;
  * Permite adicionar, remover, buscar, listar clientes e salvar/carregar
  * os dados em um arquivo JSON.
  */
-public class GestaoClientes {
+public class ClientesRepository {
 
     /**Lista de clientes cadastrados*/
     private List<Cliente> listaDeClientes;
@@ -31,7 +31,7 @@ public class GestaoClientes {
     /**
      * Construtor da classe. Inicializa a lista de clientes e carrega os dados do arquivo JSON.
      */
-    public GestaoClientes() {
+    public ClientesRepository() {
         this.listaDeClientes = new ArrayList<>();
         carregarDados();
     }

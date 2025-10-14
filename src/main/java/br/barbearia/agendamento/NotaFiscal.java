@@ -1,6 +1,6 @@
-package br.barbearia.servico;
+package br.barbearia.agendamento;
 
-import br.barbearia.usuarios.Cliente;
+import br.barbearia.model.Cliente;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +48,11 @@ public class NotaFiscal {
         this.dataemissao = dataemissao; 
     }
 
-    public Cliente getCliente() { 
+    public Cliente getCliente() {
         return cliente; 
     }
 
-    public void setCliente(Cliente cliente) { 
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente; 
     }
 

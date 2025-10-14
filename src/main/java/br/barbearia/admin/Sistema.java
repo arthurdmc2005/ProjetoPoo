@@ -4,12 +4,13 @@
  */
 package br.barbearia.admin;
 
-import br.barbearia.usuarios.Funcionario;
+import br.barbearia.model.Funcionario;
+import br.barbearia.repository.FuncionariosRepository;
 
 
 public class Sistema {
     public static void main(String[] args) {
-        GestaoFuncionarios gestao = new GestaoFuncionarios();
+        FuncionariosRepository gestao = new FuncionariosRepository();
         
         Funcionario f1 = new Funcionario("Arthur", "12345670910","Barbeiro",2500.0);
         gestao.adicionarFuncionario(f1);

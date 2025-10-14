@@ -1,8 +1,8 @@
-package br.barbearia.admin;
+package br.barbearia.repository;
 
 
-import br.barbearia.servico.Servico;
-import br.barbearia.usuarios.Funcionario;
+import br.barbearia.agendamento.Servico;
+import br.barbearia.model.Funcionario;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author Arthur
  */
 
-public class GerenciarServicos {
+public class ServicosRepository {
     private String servico;
     private String data;
     private String produto;
@@ -34,7 +34,7 @@ public class GerenciarServicos {
      */
     private final String CAMINHO_JSON = "data/servicos.json";
     
-    public GerenciarServicos(){
+    public ServicosRepository(){
         this.listaDeServicos = new ArrayList<>();
         carregarDados();
     }

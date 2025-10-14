@@ -1,4 +1,4 @@
-package br.barbearia.usuarios;
+package br.barbearia.model;
 
 
 
@@ -9,8 +9,6 @@ package br.barbearia.usuarios;
 
 public abstract class Pessoa {
     protected String nome;
-    
-    
     protected String cpf;
     protected String telefone;
     protected String endereco;

@@ -1,6 +1,6 @@
-package br.barbearia.admin;
+package br.barbearia.repository;
 
-import br.barbearia.usuarios.Funcionario;
+import br.barbearia.model.Funcionario;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Permite adicionar, remover, buscar, listar barbeiros e salvar/carregar
  * os dados em um arquivo JSON.
  */
-public class GestaoFuncionarios {
+public class FuncionariosRepository {
 
     /**Lista que armazena todos os funcionarios*/
     private List<Funcionario> listaDeFuncionarios;
@@ -23,7 +23,7 @@ public class GestaoFuncionarios {
     private final String CAMINHO_JSON = "data/funcionarios.json";
 
    
-    public GestaoFuncionarios() {
+    public FuncionariosRepository() {
         this.listaDeFuncionarios = new ArrayList<>();
         carregarDados();
     }

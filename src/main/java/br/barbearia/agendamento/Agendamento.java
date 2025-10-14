@@ -1,7 +1,7 @@
-package br.barbearia.servico;
+package br.barbearia.agendamento;
 
-import br.barbearia.usuarios.Cliente;
-import br.barbearia.usuarios.Funcionario;
+import br.barbearia.model.Cliente;
+import br.barbearia.model.Funcionario;
 
 import java.time.LocalDateTime;
 

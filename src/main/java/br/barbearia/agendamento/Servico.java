@@ -1,4 +1,4 @@
-package br.barbearia.servico;
+package br.barbearia.agendamento;
 
 
 public class Servico {

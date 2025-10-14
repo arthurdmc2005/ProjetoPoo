@@ -1,11 +1,11 @@
-package br.barbearia.usuarios;
+package br.barbearia.model;
 
 public class Funcionario extends Pessoa {
     private int id;
     private String cargo;
     private double salario;
 
-    public Funcionario(String nome, String cpf, int id, String cargo, double salario,String telefone) {
+    public Funcionario(String nome, String cpf, int id, String cargo, double salario, String telefone) {
         super(nome, cpf);
         this.id = id;
         this.cargo = cargo;
