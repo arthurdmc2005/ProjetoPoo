@@ -5,7 +5,7 @@ public class Cliente extends Pessoa {
     private String status;
 
     // Construtor: inicia o status sempre como "Pendente"
-    public Cliente(String nome, String cpf, String telefone, String endereco, String cartao) {
+    public Cliente(String nome, String cpf, String telefone, String cartao) {
         super(nome, cpf, telefone, endereco);
         this.cartao = cartao;
         this.status = "Pendente";

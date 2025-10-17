@@ -18,13 +18,11 @@ public abstract class Pessoa {
    * @param nome armazena o nome;
    * @param cpf armazena o cpf;
    * @param telefone armazena o telefone;
-   * @param endereco  armazena o endereço;
    */
-    public Pessoa(String nome, String cpf, String telefone, String endereco) {
+    public Pessoa(String nome, String cpf, String telefone) {
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
-        this.endereco = endereco;
     }
 
    /**

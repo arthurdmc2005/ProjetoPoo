@@ -1,8 +1,8 @@
-package br.barbearia.Loja;
+package br.barbearia.Loja.repository;
 
 import java.math.BigDecimal;
 
-public class Produtos {
+public class ProdutosRepository {
     private String produto;
     private String descricao;
     private BigDecimal valor;
