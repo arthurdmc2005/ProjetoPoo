@@ -6,9 +6,20 @@ public class Cliente extends Pessoa {
 
     // Construtor: inicia o status sempre como "Pendente"
     public Cliente(String nome, String cpf, String telefone, String cartao) {
-        super(nome, cpf, telefone, endereco);
+        super(nome, cpf, telefone);
         this.cartao = cartao;
         this.status = "Pendente";
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", endereco='" + endereco + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 
     // Getters

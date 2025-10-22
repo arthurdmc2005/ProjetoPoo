@@ -25,7 +25,17 @@ public abstract class Pessoa {
         this.telefone = telefone;
     }
 
-   /**
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", endereco='" + endereco + '\'' +
+                '}';
+    }
+
+    /**
     * Construtor vazio possibilitando a sobrecarga de construtores e também porque com a utilização do JSON é preciso um construtor vazio caso contrario o framework não consegue criar o objeto automaticamente;
     */
     public Pessoa() {}

@@ -11,6 +11,15 @@ public class Despesas {
     private BigDecimal valor;
     private LocalDate data;
 
+    @Override
+    public String toString() {
+        return "Despesas{" +
+                "descricao='" + descricao + '\'' +
+                ", valor=" + valor +
+                ", data=" + data +
+                '}';
+    }
+
     /**
      *
      * @param descricao descreve a despesa no geral.

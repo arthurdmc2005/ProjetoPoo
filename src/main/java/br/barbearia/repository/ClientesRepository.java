@@ -89,7 +89,17 @@ public class ClientesRepository {
         return null;
     }
 
-     /**
+    @Override
+    public String toString() {
+        int tamanho = (this.listaDeClientes != null) ? this.listaDeClientes.size() : 0;
+
+        return "ClientesRepository{" +
+                "clientesCarregados=" + tamanho +
+                ", CAMINHO_JSON='" + CAMINHO_JSON + '\'' +
+                '}';
+    }
+
+    /**
      * Remove um cliente pelo CPF e salva os dados no JSON.
      * @param cpf O CPF do cliente a ser removido
      * @return true se o cliente foi removido, false caso contrário
