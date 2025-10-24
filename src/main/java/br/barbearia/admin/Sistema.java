@@ -6,8 +6,11 @@ package br.barbearia.admin;
 
 
 
+import br.barbearia.model.Cliente;
 import br.barbearia.model.Funcionario;
+import br.barbearia.repository.ClientesRepository;
 import br.barbearia.repository.FuncionariosRepository;
+import br.barbearia.service.ClienteService;
 import javafx.application.Application;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,10 +21,16 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 
-public class Sistema extends Application {
+public class Sistema  {
 
-    @Override
-    public void start(Stage primaryStage) throws IOException {
+    public static void main(String[] args) {
+        ClientesRepository meuRepo = new ClientesRepository();
+        ClientesRepository meuService = new ClienteService(meuRepo);
+
+
+    }
+
+
 
     }
 
