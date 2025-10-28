@@ -1,39 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.barbearia.admin;
 
-
-
-import br.barbearia.model.Cliente;
-import br.barbearia.model.Funcionario;
+import br.barbearia.model.Usuarios; // Importe sua classe
+import br.barbearia.repository.UsuarioRepository; // Importe seu repositório
 import br.barbearia.repository.ClientesRepository;
 import br.barbearia.repository.FuncionariosRepository;
-import br.barbearia.service.ClienteService;
-import javafx.application.Application;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import br.barbearia.model.Cliente;
 
-import java.io.IOException;
-
-
-public class Sistema  {
+class TesteLogin {
 
     public static void main(String[] args) {
-        ClientesRepository meuRepo = new ClientesRepository();
-        ClientesRepository meuService = new ClienteService(meuRepo);
+
+        System.out.println("--- INICIANDO TESTE COM JSON ---");
+
+
+        UsuarioRepository repositorioDeUsuarios = new UsuarioRepository("BarbeariaComMaven/Usuarios.JSON");
+
+
+
+        if (repositorioDeUsuarios.buscarPorLogin("admin") == null) {
+
+            System.out.println("Usuário 'admin' não encontrado. Criando agora...");
+
+            Usuarios admin = new Usuarios("admin", "senha123");
+
+
+            repositorioDeUsuarios.adicionarUsuario(admin);
+
+            System.out.println("Usuário 'admin' salvo no JSON.");
+
+        } else {
+            System.out.println("Usuário 'admin' já foi carregado do JSON.");
+        }
+
+        System.out.println("--- TESTE FINALIZADO ---");
+
+        }
 
 
     }
 
-
-
-    }
-
-
-    
-}
