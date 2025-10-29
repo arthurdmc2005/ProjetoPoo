@@ -1,7 +1,6 @@
 package br.barbearia.service;
 
 
-import br.barbearia.model.Cliente;
 import br.barbearia.model.Usuarios;
 import br.barbearia.repository.UsuarioRepository;
 

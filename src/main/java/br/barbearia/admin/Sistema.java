@@ -2,9 +2,7 @@ package br.barbearia.admin;
 
 import br.barbearia.model.Usuarios; // Importe sua classe
 import br.barbearia.repository.UsuarioRepository; // Importe seu repositório
-import br.barbearia.repository.ClientesRepository;
-import br.barbearia.repository.FuncionariosRepository;
-import br.barbearia.model.Cliente;
+
 
 class TesteLogin {
 
@@ -15,26 +13,35 @@ class TesteLogin {
 
         UsuarioRepository repositorioDeUsuarios = new UsuarioRepository("BarbeariaComMaven/Usuarios.JSON");
 
+        Usuarios usuarioParaCadastrar = new Usuarios();
 
+        String nomeDigitado = "Arthur";
+        String cpfDigitado = "12345678900"; // CPF com 11 dígitos
+        String telefoneDigitado = "11999998888";
+        String loginDigitado = "arthur";
+        String senhaDigitada = "senha123";
 
-        if (repositorioDeUsuarios.buscarPorLogin("admin") == null) {
+        usuarioParaCadastrar.setNome(nomeDigitado);
+        usuarioParaCadastrar.setCpf(cpfDigitado);
+        usuarioParaCadastrar.setTelefone(telefoneDigitado);
+        usuarioParaCadastrar.setLogin(loginDigitado);
+        usuarioParaCadastrar.setSenhaHash(senhaDigitada);
 
-            System.out.println("Usuário 'admin' não encontrado. Criando agora...");
+        try {
+            System.out.printf("Entregando dados ao service para validação");
 
-            Usuarios admin = new Usuarios("admin", "senha123");
+            repositorioDeUsuarios.adicionarUsuario(usuarioParaCadastrar);
 
-
-            repositorioDeUsuarios.adicionarUsuario(admin);
-
-            System.out.println("Usuário 'admin' salvo no JSON.");
-
-        } else {
-            System.out.println("Usuário 'admin' já foi carregado do JSON.");
+            System.out.println("Usuário Cadastrado!");
+        }catch (Exception e){
+            System.out.printf("Falha no cadastro" + e.getMessage());
         }
 
-        System.out.println("--- TESTE FINALIZADO ---");
 
-        }
+
+
+
+    }
 
 
     }
