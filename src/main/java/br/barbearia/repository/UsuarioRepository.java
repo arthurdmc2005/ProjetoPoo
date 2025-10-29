@@ -22,7 +22,7 @@ public class UsuarioRepository {
 
 
     /**
-     * Ferramenta utilizada para fazer a ''tradução'' de java para JSON e vice-versa.
+     * Ferramenta que ''escreve'' o fichário;
      */
     private ObjectMapper objectMapper;
 

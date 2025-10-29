@@ -1,6 +1,7 @@
 package br.barbearia.admin;
 
 import br.barbearia.model.Usuarios; // Importe sua classe
+import br.barbearia.repository.ServicosRepository;
 import br.barbearia.repository.UsuarioRepository; // Importe seu repositório
 
 
@@ -12,6 +13,7 @@ class TesteLogin {
 
 
         UsuarioRepository repositorioDeUsuarios = new UsuarioRepository("BarbeariaComMaven/Usuarios.JSON");
+
 
         Usuarios usuarioParaCadastrar = new Usuarios();
 
