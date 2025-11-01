@@ -1,7 +1,8 @@
 package br.barbearia.admin;
 
+import br.barbearia.agendamento.model.Servicos;
 import br.barbearia.model.Usuarios; // Importe sua classe
-import br.barbearia.repository.ServicosRepository;
+import br.barbearia.agendamento.repository.ServicosRepository;
 import br.barbearia.repository.UsuarioRepository; // Importe seu repositório
 
 
@@ -14,20 +15,11 @@ class TesteLogin {
 
         UsuarioRepository repositorioDeUsuarios = new UsuarioRepository("BarbeariaComMaven/Usuarios.JSON");
 
+        ServicosRepository repositorioDeServicos = new ServicosRepository("BarbeariaComMaven/Servicos.JSON");
+
 
         Usuarios usuarioParaCadastrar = new Usuarios();
-
-        String nomeDigitado = "Arthur";
-        String cpfDigitado = "12345678900"; // CPF com 11 dígitos
-        String telefoneDigitado = "11999998888";
-        String loginDigitado = "arthur";
-        String senhaDigitada = "senha123";
-
-        usuarioParaCadastrar.setNome(nomeDigitado);
-        usuarioParaCadastrar.setCpf(cpfDigitado);
-        usuarioParaCadastrar.setTelefone(telefoneDigitado);
-        usuarioParaCadastrar.setLogin(loginDigitado);
-        usuarioParaCadastrar.setSenhaHash(senhaDigitada);
+        Servicos servicoParaCadastrar = new Servicos();
 
         try {
             System.out.printf("Entregando dados ao service para validação");

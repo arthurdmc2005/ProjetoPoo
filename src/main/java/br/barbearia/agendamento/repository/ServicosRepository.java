@@ -1,13 +1,14 @@
-package br.barbearia.repository;
+package br.barbearia.agendamento.repository;
 
 // --- IMPORTAÇÕES CORRIGIDAS ---
-import br.barbearia.model.Servicos; // 1. O Modelo que vamos salvar
+import br.barbearia.agendamento.model.Servicos; // 1. O Modelo que vamos salvar
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,6 +129,55 @@ public class ServicosRepository {
             }
         }
         return null;
+    }
+
+    /**
+     *
+     * @param dataBuscada Armazena a data que o usuário quer buscar.
+     * @return retorna todos os serviços que foram realizados nessa data.
+     */
+    public List<Servicos> buscarPorData(LocalDate dataBuscada){
+        List<Servicos> servicosEncontrados = new ArrayList<>();
+
+        for(Servicos servicoDaLista : listaDeServicos){
+            if(servicoDaLista.getData()!=null && servicoDaLista.getData().equals(dataBuscada)){
+                servicosEncontrados.add(servicoDaLista);
+            }
+        }
+        return servicosEncontrados;
+    }
+
+    /**
+     *
+     * @param tipoDeServicoBuscado Váriavel que armazena o tipo de serviço que o usuário está procurando.
+     * @return retorna uma lista com todos os serviços que foram feitos. Ex: todos serviços de Corte, de barba ou de corte e barba.
+     */
+    public List<Servicos> buscarPorTipoDeServico(String tipoDeServicoBuscado){
+        List<Servicos> tipoDeServicosEncontrados = new ArrayList<>();
+
+        for(Servicos servicoDaLista : listaDeServicos){
+            if(servicoDaLista.getTipoDeServico()!=null && servicoDaLista.getTipoDeServico().equals(tipoDeServicoBuscado)){
+                tipoDeServicosEncontrados.add(servicoDaLista);
+            }
+        }
+        return tipoDeServicosEncontrados;
+    }
+
+    /**
+     *
+     * @param autorDoServico Váriavel que armazena o autor do Serviço que estou procurando;
+     * @return retorna uma lista com todos os serviços feitos pelo autor;
+     */
+    public List<Servicos> autorDoServico(String autorDoServico){
+        List<Servicos> servicosFeitosPeloAutor = new ArrayList<>();
+
+        for(Servicos servicoDaLista : listaDeServicos){
+            if(servicoDaLista.getAutorDoServico()!=null && servicoDaLista.getAutorDoServico().equals(autorDoServico)){
+                servicosFeitosPeloAutor.add(servicoDaLista);
+
+            }
+        }
+        return servicosFeitosPeloAutor;
     }
 
 }

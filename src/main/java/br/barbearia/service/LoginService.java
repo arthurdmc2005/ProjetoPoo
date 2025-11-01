@@ -12,6 +12,17 @@ public class LoginService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    public Usuarios cadastrarUsuario(String nome, String cpf, String telefone, String senha,String login)throws Exception{
+        Usuarios usuarioParaCadastrar = new Usuarios();
+        usuarioParaCadastrar.setNome(nome);
+        usuarioParaCadastrar.setCpf(cpf);
+        usuarioParaCadastrar.setTelefone(telefone);
+        usuarioParaCadastrar.setLogin(login);
+        usuarioParaCadastrar.setSenhaHash(senha);
+
+        return this.cadastrarUsuario(usuarioParaCadastrar);
+    }
+
     public Usuarios cadastrarUsuario(Usuarios novoUsuario)throws Exception {
         if (novoUsuario.getNome() == null || novoUsuario.getNome().trim().isEmpty()) {
             throw new Exception("Existem campos obrigátorios que não foram preenchidos");
