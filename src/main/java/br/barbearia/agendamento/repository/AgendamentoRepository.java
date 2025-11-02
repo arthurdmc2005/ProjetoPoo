@@ -1,7 +1,7 @@
 package br.barbearia.agendamento.repository;
 
-// --- IMPORTAÇÕES CORRIGIDAS ---
-import br.barbearia.agendamento.model.Servicos; // 1. O Modelo que vamos salvar
+
+import br.barbearia.agendamento.model.Agendamento;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -16,7 +16,7 @@ import java.util.List;
  * Classe responsável por todo gerenciamento de serviços da barbearia.
  * @author Arthur
  */
-public class ServicosRepository {
+public class AgendamentoRepository {
 
     /**
      * Tradução do JSON
@@ -32,12 +32,12 @@ public class ServicosRepository {
      * Lista que armazena os serviços da barbearia;
      * (Corrigido para usar o modelo 'Servico' singular)
      */
-    private List<Servicos> listaDeServicos;
+    private List<Agendamento> listaDeAgendamentos;
 
     /**
      * Caminho que leva até a JSON que vai armaenar as informações
      */
-    public ServicosRepository(String caminhoDoArquivo) {
+    public AgendamentoRepository(String caminhoDoArquivo) {
 
         /**
          * Cria a instância;
@@ -55,24 +55,24 @@ public class ServicosRepository {
         /**
          * Chama nossa função (que está logo abaixo) para LER o arquivo
          */
-        this.listaDeServicos = carregarDoJson();
+        this.listaDeAgendamentos = carregarDoJson();
     }
 
     /**
      * Função PRIVADA (só o repositório usa) para LER o arquivo JSON.
-     * @return A lista de serviços que estava no arquivo.
+     * @return A listaDeAgendamentosa de serviços que estava no arquivo.
      */
-    private List<Servicos> carregarDoJson() {
+    private List<Agendamento> carregarDoJson() {
         try {
             if (!arquivoJson.exists()) {
                 return new ArrayList<>();
             }
 
 
-            return objectMapper.readValue(arquivoJson, new TypeReference<List<Servicos>>() {});
+            return objectMapper.readValue(arquivoJson, new TypeReference<List<Agendamento>>() {});
 
         } catch (IOException e) {
-            System.err.println("ERRO: Falha ao carregar JSON de serviços: " + e.getMessage());
+            System.err.println("ERRO: Falha ao carregar JSON de Agendamentos: " + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -83,8 +83,8 @@ public class ServicosRepository {
     private void salvarNoJson() {
         try {
             // --- ERRO 3 CORRIGIDO ---
-            // Trocado 'listaDeUsuariosCache' pelo nome correto da variável: 'listaDeServicos'
-            objectMapper.writeValue(arquivoJson, listaDeServicos);
+            // Trocado 'listaDeAgendamentosaDeUsuariosCache' pelo nome correto da variável: 'listaDeAgendamentos'
+            objectMapper.writeValue(arquivoJson, listaDeAgendamentos);
         } catch (IOException e) {
             System.err.println("ERRO: Falha ao salvar JSON de serviços: " + e.getMessage());
         }
@@ -96,7 +96,7 @@ public class ServicosRepository {
      */
     private int proximoId() {
         int maxId = 0;
-        for (Servicos servico : listaDeServicos) {
+        for (Agendamento servico : listaDeAgendamentos) {
             // (Assumindo que sua classe Servico tem 'getId()')
             if (servico.getId() > maxId) {
                 maxId = servico.getId();
@@ -106,12 +106,12 @@ public class ServicosRepository {
     }
 
     /**
-     * [CREATE] Adiciona um novo serviço na lista e salva no JSON.
+     * [CREATE] Adiciona um novo serviço na listaDeAgendamentos e salva no JSON.
      */
-    public void adicionarServico(Servicos servicoParaSalvar) {
-        if (servicoParaSalvar.getId() == 0) {
-            servicoParaSalvar.setId(proximoId());
-            listaDeServicos.add(servicoParaSalvar);
+    public void adicionarServico(Agendamento agendamentoParaSalvar) {
+        if (agendamentoParaSalvar.getId() == 0) {
+            agendamentoParaSalvar.setId(proximoId());
+            listaDeAgendamentos.add(agendamentoParaSalvar);
             salvarNoJson();
             System.out.println("LOG: Serviço salvo com sucesso.");
         }
@@ -121,11 +121,11 @@ public class ServicosRepository {
     /**
      * [READ] Busca um serviço pelo nome.
      */
-    public Servicos buscarPorServico(String nomeParaBuscar) {
-        for (Servicos servico : listaDeServicos) {
+    public Agendamento buscarPorServico(String nomeParaBuscar) {
+        for (Agendamento agendamento : listaDeAgendamentos) {
             // (Assumindo que sua classe Servico tem 'getNome()')
-            if (servico.getTipoDeServico() != null && servico.getTipoDeServico().equals(nomeParaBuscar)) {
-                return servico;
+            if (agendamento.getTipoDeServico() != null && agendamento.getTipoDeServico().equals(nomeParaBuscar)) {
+                return agendamento;
             }
         }
         return null;
@@ -136,15 +136,15 @@ public class ServicosRepository {
      * @param dataBuscada Armazena a data que o usuário quer buscar.
      * @return retorna todos os serviços que foram realizados nessa data.
      */
-    public List<Servicos> buscarPorData(LocalDate dataBuscada){
-        List<Servicos> servicosEncontrados = new ArrayList<>();
+    public List<Agendamento> buscarPorData(LocalDate dataBuscada){
+        List<Agendamento> agendamentoEncontrados = new ArrayList<>();
 
-        for(Servicos servicoDaLista : listaDeServicos){
+        for(Agendamento servicoDaLista : listaDeAgendamentos){
             if(servicoDaLista.getData()!=null && servicoDaLista.getData().equals(dataBuscada)){
-                servicosEncontrados.add(servicoDaLista);
+                agendamentoEncontrados.add(servicoDaLista);
             }
         }
-        return servicosEncontrados;
+        return agendamentoEncontrados;
     }
 
     /**
@@ -152,15 +152,15 @@ public class ServicosRepository {
      * @param tipoDeServicoBuscado Váriavel que armazena o tipo de serviço que o usuário está procurando.
      * @return retorna uma lista com todos os serviços que foram feitos. Ex: todos serviços de Corte, de barba ou de corte e barba.
      */
-    public List<Servicos> buscarPorTipoDeServico(String tipoDeServicoBuscado){
-        List<Servicos> tipoDeServicosEncontrados = new ArrayList<>();
+    public List<Agendamento> buscarPorTipoDeServico(String tipoDeServicoBuscado){
+        List<Agendamento> tipoDeAgendamentoEncontrados = new ArrayList<>();
 
-        for(Servicos servicoDaLista : listaDeServicos){
+        for(Agendamento servicoDaLista : listaDeAgendamentos){
             if(servicoDaLista.getTipoDeServico()!=null && servicoDaLista.getTipoDeServico().equals(tipoDeServicoBuscado)){
-                tipoDeServicosEncontrados.add(servicoDaLista);
+                tipoDeAgendamentoEncontrados.add(servicoDaLista);
             }
         }
-        return tipoDeServicosEncontrados;
+        return tipoDeAgendamentoEncontrados;
     }
 
     /**
@@ -168,16 +168,25 @@ public class ServicosRepository {
      * @param autorDoServico Váriavel que armazena o autor do Serviço que estou procurando;
      * @return retorna uma lista com todos os serviços feitos pelo autor;
      */
-    public List<Servicos> autorDoServico(String autorDoServico){
-        List<Servicos> servicosFeitosPeloAutor = new ArrayList<>();
+    public List<Agendamento> buscarPorautorDoServico(String autorDoServico){
+        List<Agendamento> agendamentoFeitosPeloAutor = new ArrayList<>();
 
-        for(Servicos servicoDaLista : listaDeServicos){
+        for(Agendamento servicoDaLista : listaDeAgendamentos){
             if(servicoDaLista.getAutorDoServico()!=null && servicoDaLista.getAutorDoServico().equals(autorDoServico)){
-                servicosFeitosPeloAutor.add(servicoDaLista);
+                agendamentoFeitosPeloAutor.add(servicoDaLista);
 
             }
         }
-        return servicosFeitosPeloAutor;
+        return agendamentoFeitosPeloAutor;
+    }
+
+    public Agendamento buscarPorId(int idBuscado){
+        for(Agendamento agendamentoDaLista : listaDeAgendamentos){
+            if(agendamentoDaLista.getId()== idBuscado){
+                return agendamentoDaLista;
+            }
+        }
+        return null;
     }
 
 }
