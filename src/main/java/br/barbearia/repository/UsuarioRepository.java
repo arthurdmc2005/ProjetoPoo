@@ -1,6 +1,7 @@
 package br.barbearia.repository;
 
 
+import br.barbearia.agendamento.model.Agendamento;
 import br.barbearia.model.Usuarios;
 
 
@@ -52,6 +53,8 @@ public class UsuarioRepository {
          * Cria a instância do Jackson.
          */
         this.objectMapper = new ObjectMapper();
+
+        this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 
         /**
@@ -191,4 +194,12 @@ public class UsuarioRepository {
 
     }
 
+    public Usuarios buscarPorId(int idBuscado){
+        for(Usuarios usuariosDaLista : listaDeUsuariosCache){
+            if(usuariosDaLista.getId()== idBuscado){
+                return usuariosDaLista;
+            }
+        }
+        return null;
+    }
 }

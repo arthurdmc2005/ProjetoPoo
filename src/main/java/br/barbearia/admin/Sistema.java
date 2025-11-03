@@ -1,42 +1,69 @@
 package br.barbearia.admin;
 
+// Importe todas as suas "ferramentas"
 import br.barbearia.agendamento.model.Agendamento;
-import br.barbearia.model.Usuarios; // Importe sua classe
+import br.barbearia.repository.UsuarioRepository;
+import br.barbearia.agendamento.repository.ServicosRepository;
 import br.barbearia.agendamento.repository.AgendamentoRepository;
-import br.barbearia.repository.UsuarioRepository; // Importe seu repositório
+import br.barbearia.agendamento.service.AgendamentoServices;
+import br.barbearia.model.*;
 
+// Importe as "peças" (LocalDate, LocalTime)
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
-class TesteLogin {
+public class Sistema {
 
     public static void main(String[] args) {
 
-        System.out.println("--- INICIANDO TESTE COM JSON ---");
+        System.out.println("--- INICIANDO TESTE DO AGENDAMENTO SERVICE ---");
 
 
-        UsuarioRepository repositorioDeUsuarios = new UsuarioRepository("BarbeariaComMaven/Usuarios.JSON");
+        UsuarioRepository usuarioRepository = new UsuarioRepository("BarbeariaComMaven/Usuarios.JSON");
+        ServicosRepository servicosRepository = new ServicosRepository("BarbeariaComMaven/Servicos.JSON");
+        AgendamentoRepository agendamentoRepository = new AgendamentoRepository("BarbeariaComMaven/Agendamentos.JSON");
 
-        AgendamentoRepository repositorioDeServicos = new AgendamentoRepository("BarbeariaComMaven/Servicos.JSON");
+        System.out.println("LOG: Repositórios criados.");
 
 
-        Usuarios usuarioParaCadastrar = new Usuarios();
-        Agendamento servicoParaCadastrar = new Agendamento();
+        AgendamentoServices agendamentoService = new AgendamentoServices(
+                agendamentoRepository,
+                usuarioRepository,
+                servicosRepository
+        );
+
+        System.out.println("LOG: Service de Agendamento criado.");
+
+
 
         try {
-            System.out.printf("Entregando dados ao service para validação");
 
-            repositorioDeUsuarios.adicionarUsuario(usuarioParaCadastrar);
+            LocalDate diaParaTestar = LocalDate.of(2025, 11, 25);
+            System.out.println("\nBuscando horários livres para " + diaParaTestar + "...");
 
-            System.out.println("Usuário Cadastrado!");
-        }catch (Exception e){
-            System.out.printf("Falha no cadastro" + e.getMessage());
+
+            List<LocalTime> horarios = agendamentoService.buscarHorariosDisponiveis(diaParaTestar);
+
+            System.out.println("Horários encontrados: " + horarios);
+
+
+            System.out.println("\nTentando salvar um novo agendamento...");
+
+            Agendamento novoAg = agendamentoService.salvarNovoAgendamento(
+                    diaParaTestar,      // A Data
+                    LocalTime.of(9, 0),
+                    1,
+                    1,
+                    2
+            );
+
+            System.out.println("SUCESSO! Agendamento salvo com ID: " + novoAg.getId());
+
+        } catch (Exception e) {
+
+            System.out.println("TESTE FALHOU: " + e.getMessage());
+            e.printStackTrace();
         }
-
-
-
-
-
     }
-
-
-    }
-
+}

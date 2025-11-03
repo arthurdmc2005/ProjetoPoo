@@ -96,4 +96,36 @@ public class ServicosRepository {
         }
         return novoServico;
     }
+
+    public void removerServico(int idParaRemover){
+        boolean foiRemovido = listaDeServicos.removeIf(servicos -> servicos.getId()==idParaRemover);
+        if(foiRemovido){
+            salvarNoJson();
+        }
+    }
+
+    public void atualizarServicos(Servicos servicoParaAtualizar){
+
+        for(int i = 0; i < listaDeServicos.size(); i++){
+            Servicos servicoAntigo = listaDeServicos.get(i);
+            if(servicoAntigo.getId()==servicoParaAtualizar.getId()){
+                listaDeServicos.set(i, servicoParaAtualizar);
+                salvarNoJson();
+                return; // Parar o loop depois de achar
+
+            }
+        }
+
+    }
+
+    public Servicos buscarPorId(int idBuscado){
+        for(Servicos servicosDaLista : listaDeServicos){
+            if(servicosDaLista.getId()== idBuscado){
+                return servicosDaLista;
+            }
+        }
+        return null;
+    }
+
+
 }

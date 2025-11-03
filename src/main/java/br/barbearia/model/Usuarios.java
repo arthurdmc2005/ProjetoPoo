@@ -4,7 +4,7 @@ public class Usuarios {
 
     private String nome;
     private int id;
-    private String tipo;
+    private String tipoDeUsuario;
     private String login;
     private String senhaHash;
     private String cpf;
@@ -15,7 +15,7 @@ public class Usuarios {
     }
 
     public String getTipo() {
-        return tipo;
+        return tipoDeUsuario;
     }
 
     public int getId() {
@@ -43,7 +43,7 @@ public class Usuarios {
     }
 
     public void setTipo(String cargo) {
-        this.tipo = cargo;
+        this.tipoDeUsuario = cargo;
     }
 
     public String getTelefone() {
@@ -75,7 +75,7 @@ public class Usuarios {
         return "Usuarios{" +
                 "nome='" + nome + '\'' +
                 ", id=" + id +
-                ", tipo='" + tipo + '\'' +
+                ", tipoDeUsuario='" + tipoDeUsuario + '\'' +
                 ", login='" + login + '\'' +
                 ", senhaHash='" + senhaHash + '\'' +
                 ", cpf='" + cpf + '\'' +
@@ -83,20 +83,20 @@ public class Usuarios {
                 '}';
     }
 
-    public Usuarios(String nome, String login, String senhaHash, String tipo, String cpf,String telefone){
+    public Usuarios(String nome, String login, String senhaHash, String tipoDeUsuario, String cpf,String telefone){
         this.nome = nome;
         this.login = login;
         this.senhaHash = senhaHash;
-        this.tipo = tipo;
+        this.tipoDeUsuario = tipoDeUsuario;
         this.cpf = cpf;
         this.telefone = telefone;
 
 
     }
 
-    public Usuarios(int id, String tipo, String login, String senhaHash) {
+    public Usuarios(int id, String tipoDeUsuario, String login, String senhaHash) {
         this.id = id;
-        this.tipo = tipo;
+        this.tipoDeUsuario = tipoDeUsuario;
         this.login = login;
         this.senhaHash = senhaHash;
     }

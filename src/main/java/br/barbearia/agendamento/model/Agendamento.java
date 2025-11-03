@@ -1,20 +1,39 @@
 package br.barbearia.agendamento.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Agendamento {
 
     private LocalDate data;
     private String tipoDeServico;
-    private double valor;
     private String autorDoServico;
     private int id;
+    private String status;
+    private LocalTime hora;
+    private double valorCobrado;
 
 
 
 
 
     private int clienteId;
+
+    public LocalTime getHora() {
+        return hora;
+    }
+
+    public double getValorCobrado() {
+        return valorCobrado;
+    }
+
+    public void setValorCobrado(double valorCobrado) {
+        this.valorCobrado = valorCobrado;
+    }
+
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
+    }
 
     private int servicoId;
 
@@ -48,16 +67,15 @@ public class Agendamento {
         return data;
     }
 
-    public Agendamento(LocalDate data, String tipoDeServico, double valor, String autorDoServico) {
+    public Agendamento(LocalDate data, String tipoDeServico, String autorDoServico,String status) {
         this.data = data;
         this.tipoDeServico = tipoDeServico;
-        this.valor = valor;
         this.autorDoServico = autorDoServico;
+        this.status = status;
     }
 
-    public Agendamento(String tipoDeServico, double valor, String autorDoServico){
+    public Agendamento(String tipoDeServico, String autorDoServico){
         this.tipoDeServico = tipoDeServico;
-        this.valor = valor;
         this.autorDoServico = autorDoServico;
 
     }
@@ -73,12 +91,19 @@ public class Agendamento {
         this.id = id;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Agendamento{" +
                 "data=" + data +
                 ", tipoDeServico='" + tipoDeServico + '\'' +
-                ", valor=" + valor +
                 ", autorDoServico='" + autorDoServico + '\'' +
                 ", id=" + id;
 
@@ -94,14 +119,6 @@ public class Agendamento {
 
     public void setTipoDeServico(String tipoDeServico) {
         this.tipoDeServico = tipoDeServico;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
     }
 
     public String getAutorDoServico() {

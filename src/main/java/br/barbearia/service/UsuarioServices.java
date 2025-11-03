@@ -4,21 +4,24 @@ package br.barbearia.service;
 import br.barbearia.model.Usuarios;
 import br.barbearia.repository.UsuarioRepository;
 
-public class LoginService {
+import java.rmi.server.ExportException;
+
+public class UsuarioServices {
 
     private UsuarioRepository usuarioRepository;
 
-    public LoginService(UsuarioRepository usuarioRepository){
+    public UsuarioServices(UsuarioRepository usuarioRepository){
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Usuarios cadastrarUsuario(String nome, String cpf, String telefone, String senha,String login)throws Exception{
+    public Usuarios cadastrarUsuario(String nome, String cpf, String telefone,String tipo, String senha,String login)throws Exception{
         Usuarios usuarioParaCadastrar = new Usuarios();
         usuarioParaCadastrar.setNome(nome);
         usuarioParaCadastrar.setCpf(cpf);
         usuarioParaCadastrar.setTelefone(telefone);
         usuarioParaCadastrar.setLogin(login);
         usuarioParaCadastrar.setSenhaHash(senha);
+        usuarioParaCadastrar.setTipo(tipo);
 
         return this.cadastrarUsuario(usuarioParaCadastrar);
     }
@@ -36,6 +39,19 @@ public class LoginService {
         if (usuarioRepository.buscarUsuarioPorCpf(novoUsuario.getCpf()) != null) {
             throw new Exception("Este CPF já está cadastrado");
         }
+
+        String tipoDoUsuario = novoUsuario.getTipo();
+        if(novoUsuario.getTipo()==null && novoUsuario.getTipo().trim().isEmpty()){
+            throw new Exception("Preencha o tipo de Usuário");
+        }
+
+        boolean tipoValido = tipoDoUsuario.equalsIgnoreCase("Gerente")
+                || tipoDoUsuario.equalsIgnoreCase("Cliente")
+                || tipoDoUsuario.equalsIgnoreCase("Funcionario");
+        if(!tipoValido){
+            throw new Exception("Usuário Inválido");
+        }
+
         System.out.println("Todas as validações foram atendidas. Cliente salvo.");
         usuarioRepository.adicionarUsuario(novoUsuario);
         return novoUsuario;

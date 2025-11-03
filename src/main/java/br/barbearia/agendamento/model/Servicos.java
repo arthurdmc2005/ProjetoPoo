@@ -3,7 +3,7 @@ package br.barbearia.agendamento.model;
 public class Servicos {
     private String servico;
     private String descricao;
-    private double valor;
+    private double precoBase;
     private int id;
 
     public int getId() {
@@ -15,17 +15,17 @@ public class Servicos {
     }
 
     public double getValor() {
-        return valor;
+        return precoBase;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
+    public void setValor(double precoBase) {
+        this.precoBase = precoBase;
     }
 
-    public Servicos(String servico, String descricao, double valor) {
+    public Servicos(String servico, String descricao, double precoBase) {
         this.servico = servico;
         this.descricao = descricao;
-        this.valor = valor;
+        this.precoBase = precoBase;
     }
 
     public Servicos(){
@@ -45,7 +45,7 @@ public class Servicos {
         return "Servicos{" +
                 "servico='" + servico + '\'' +
                 ", descricao='" + descricao + '\'' +
-                ", valor=" + valor +
+                ", precoBase=" + precoBase +
                 '}';
     }
 
