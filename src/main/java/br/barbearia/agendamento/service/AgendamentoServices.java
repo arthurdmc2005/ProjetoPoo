@@ -55,6 +55,7 @@ public class AgendamentoServices {
         agendaCompleta.add(LocalTime.of(15, 0)); // 15:00
         agendaCompleta.add(LocalTime.of(16, 0)); // 16:00
         agendaCompleta.add(LocalTime.of(17, 0)); // 17:00
+        agendaCompleta.add(LocalTime.of(18,0));  // 18:00
 
         System.out.println("LOG [Service]: Template da agenda criado com " + agendaCompleta.size() + " horários.");
 

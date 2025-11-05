@@ -15,15 +15,15 @@ public class TestServicos {
         ServicesRoles servicesRoles = new ServicesRoles(servicosRepository);
 
 
-        System.out.println("Testando o cadastro de serviços");
+        System.out.println("Testando busca por serviço");
 
         try{
-            servicesRoles.salvarNovoServico("Barba preemium",50,"barba muito foda");
-
+           servicesRoles.buscarServicoPorId(1);
         } catch (Exception e) {
-            System.out.println("Falha no cadastro de serviço");
+            System.out.printf("deu erro burro");
             throw new RuntimeException(e);
         }
+
         }
     }
 

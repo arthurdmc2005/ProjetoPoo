@@ -14,7 +14,7 @@ public class TestUsuario {
         System.out.println("TESTANDO O CADASTRO DE USUARIOS NO JSON");
 
         try{
-            usuarioServices.cadastrarUsuario("marciobundadura","01973214611","31998777425","Cliente","mameigostosoopelli","fodasemerda");
+            usuarioServices.cadastrarUsuario("chrisbostao","01973214612","31998777425","Funcionario","mameigostosoopelli","fodasemerdacu");
 
 
         } catch (Exception e) {
@@ -27,12 +27,7 @@ public class TestUsuario {
             System.out.printf("deu merda");
             throw new RuntimeException(e);
         }
-        try{
-            usuarioServices.atualizarUsuarioNaLista();
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
 
     }
