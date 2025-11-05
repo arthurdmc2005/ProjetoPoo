@@ -22,10 +22,11 @@ public class Servicos {
         this.precoBase = precoBase;
     }
 
-    public Servicos(String servico, String descricao, double precoBase) {
+    public Servicos(String servico, String descricao, double precoBase, int id) {
         this.servico = servico;
         this.descricao = descricao;
         this.precoBase = precoBase;
+        this.id = id;
     }
 
     public Servicos(){

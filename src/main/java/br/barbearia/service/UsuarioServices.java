@@ -52,12 +52,69 @@ public class UsuarioServices {
             throw new Exception("Usuário Inválido");
         }
 
+
         System.out.println("Todas as validações foram atendidas. Cliente salvo.");
         usuarioRepository.adicionarUsuario(novoUsuario);
         return novoUsuario;
 
 
+
+
+
+
+
     }
+
+    public void removerUsuario(int idParaRemover)throws Exception{
+        if(idParaRemover<=0) {
+            throw new Exception("Id inválido");
+        }
+            Usuarios usuarioParDeletar = usuarioRepository.buscarPorId(idParaRemover);
+
+            if(usuarioParDeletar==null){
+                throw new Exception("Usuário não encontrado");
+
+
+
+            }
+
+        usuarioRepository.removerUsuarioPeloId(idParaRemover);
+
+
+    }
+
+    public Usuarios buscarUsuarioPorCpf(String cpfBuscado)throws Exception{
+
+        if(cpfBuscado==null || cpfBuscado.trim().isEmpty()){
+            throw new Exception("Cpf nulo não pode bosta");
+        }
+
+        Usuarios usuarioEncontrado = usuarioRepository.buscarUsuarioPorCpf(cpfBuscado);
+
+        if(usuarioEncontrado==null){
+            throw new Exception("Não encontrei esse cpf");
+
+        }
+
+        return usuarioEncontrado;
+
+    }
+
+    public void atualizarUsuarioNaLista(Usuarios usuarioAtualizado)throws Exception{
+        if(usuarioAtualizado.getNome()==null || usuarioAtualizado.getNome().trim().isEmpty()){
+            throw new Exception("Coloca o nome merda");
+        }
+        Usuarios usuarioAntigo = usuarioRepository.buscarPorId(usuarioAtualizado.getId());
+
+        if(usuarioAntigo==null){
+            throw new Exception("cade o usuario imundo");
+        }
+
+        usuarioRepository.atualizarUsuarioNaLista(usuarioAtualizado);
+        //volte aqui depois;
+    }
+
+
 
 
 }

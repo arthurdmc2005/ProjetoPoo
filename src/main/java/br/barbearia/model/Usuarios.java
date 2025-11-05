@@ -85,8 +85,6 @@ public class Usuarios {
 
     public Usuarios(String nome, String login, String senhaHash, String tipoDeUsuario, String cpf,String telefone){
         this.nome = nome;
-        this.login = login;
-        this.senhaHash = senhaHash;
         this.tipoDeUsuario = tipoDeUsuario;
         this.cpf = cpf;
         this.telefone = telefone;

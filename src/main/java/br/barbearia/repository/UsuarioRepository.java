@@ -138,10 +138,7 @@ public class UsuarioRepository {
         salvarNoJson();
     }
 
-    /**
-     * Função PRIVADA de ajuda para o UPDATE.
-     * (Este é o método que precisa do 'for' clássico com 'i')
-     */
+
     public void atualizarUsuarioNaLista(Usuarios usuarioAtualizado) {
         for (int i = 0; i < listaDeUsuariosCache.size(); i++) {
 
