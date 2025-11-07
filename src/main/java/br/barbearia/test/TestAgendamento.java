@@ -22,10 +22,6 @@ public class TestAgendamento {
 
 
         try{
-            System.out.println("TESTE: BUSCANDO HORÁRIOS");
-            List<LocalTime> horarios = agendamentoServices.buscarHorariosDisponiveis(LocalDate.now());
-
-            System.out.println("Horários encontrados: " + horarios);
 
 
         } catch (Exception e) {
