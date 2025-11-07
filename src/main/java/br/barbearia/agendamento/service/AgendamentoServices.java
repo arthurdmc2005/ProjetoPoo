@@ -120,4 +120,6 @@ public class AgendamentoServices {
         System.out.println("LOG [Service]: Agendamento salvo com ID " + novoAgendamento.getId());
         return novoAgendamento;
     }
+
+
 }
