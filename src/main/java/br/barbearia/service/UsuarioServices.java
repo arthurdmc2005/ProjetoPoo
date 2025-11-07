@@ -59,10 +59,6 @@ public class UsuarioServices {
 
 
 
-
-
-
-
     }
 
     public void removerUsuario(int idParaRemover)throws Exception{
