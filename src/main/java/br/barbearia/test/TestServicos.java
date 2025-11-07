@@ -18,7 +18,9 @@ public class TestServicos {
         System.out.println("Testando busca por serviço");
 
         try{
-           servicesRoles.buscarServicoPorId(1);
+           Servicos objetoEncontrado = servicesRoles.buscarServicoPeloNome("Barba");
+            System.out.println(objetoEncontrado);
+
         } catch (Exception e) {
             System.out.printf("deu erro burro");
             throw new RuntimeException(e);
