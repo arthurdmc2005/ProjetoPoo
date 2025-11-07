@@ -3,6 +3,7 @@ package br.barbearia.agendamento.repository;
 
 import br.barbearia.agendamento.model.Agendamento;
 import br.barbearia.agendamento.model.Servicos;
+import br.barbearia.agendamento.service.ServicesRoles;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServicosRepository {
+
+    private ServicesRoles servicesRoles;
+
 
     private ObjectMapper objectMapper;
 
@@ -119,13 +123,24 @@ public class ServicosRepository {
     }
 
     public Servicos buscarPorId(int idBuscado){
-        for(Servicos servicosDaLista : listaDeServicos){
-            if(servicosDaLista.getId()== idBuscado){
-                return servicosDaLista;
+        for(Servicos servicos : listaDeServicos){
+            if(servicos.getId() == idBuscado){
+                return servicos;
+            }
+        }
+        return null;
+
+    }
+
+    public Servicos buscarPorTipoDeServico(String nomeDoServicoBuscado){
+        for(Servicos servico : listaDeServicos){
+            if(servico.getServico().equalsIgnoreCase(nomeDoServicoBuscado)){
+                return servico;
             }
         }
         return null;
     }
+
 
 
 }
