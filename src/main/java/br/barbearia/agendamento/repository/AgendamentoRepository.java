@@ -142,5 +142,13 @@ public class AgendamentoRepository {
         return agendamentoFeitosPeloAutor;
     }
 
-    // (fazer o atualizar agendamento e o remover agendamento)
+    public void atualizarAgendamento(Agendamento agendamentoParaAtualizar){
+        for(int i = 0; i<listaDeAgendamentos.size();i++){
+            Agendamento agendamentoAntigo = listaDeAgendamentos.get(i);
+            if(agendamentoAntigo.getId()==agendamentoParaAtualizar.getId());
+            listaDeAgendamentos.set(i,agendamentoParaAtualizar);
+            salvarNoJson();
+            return;
+        }
+    }
 }
