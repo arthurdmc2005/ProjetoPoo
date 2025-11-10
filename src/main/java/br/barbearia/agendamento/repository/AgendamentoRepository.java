@@ -1,6 +1,7 @@
 package br.barbearia.agendamento.repository;
 
 import br.barbearia.agendamento.model.Agendamento;
+import br.barbearia.agendamento.model.Estacao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -117,38 +118,45 @@ public class AgendamentoRepository {
     /**
      *  Retorna todos os agendamentos de um tipo de serviço.
      */
-    public List<Agendamento> buscarPorTipoDeServico(String tipoDeServicoBuscado) {
-        List<Agendamento> tipoDeAgendamentoEncontrados = new ArrayList<>();
-
-        for (Agendamento agendamentoDaLista : listaDeAgendamentos) {
-            if (agendamentoDaLista.getTipoDeServico() != null && agendamentoDaLista.getTipoDeServico().equals(tipoDeServicoBuscado)) {
-                tipoDeAgendamentoEncontrados.add(agendamentoDaLista);
-            }
-        }
-        return tipoDeAgendamentoEncontrados;
-    }
 
     /**
      * Retorna todos os agendamentos de um autor (Funcionário).
      */
-    public List<Agendamento> buscarPorAutorDoServico(String autorDoServico) {
-        List<Agendamento> agendamentoFeitosPeloAutor = new ArrayList<>();
-
-        for (Agendamento agendamentoDaLista : listaDeAgendamentos) {
-            if (agendamentoDaLista.getAutorDoServico() != null && agendamentoDaLista.getAutorDoServico().equals(autorDoServico)) {
-                agendamentoFeitosPeloAutor.add(agendamentoDaLista);
-            }
-        }
-        return agendamentoFeitosPeloAutor;
-    }
 
     public void atualizarAgendamento(Agendamento agendamentoParaAtualizar){
         for(int i = 0; i<listaDeAgendamentos.size();i++){
             Agendamento agendamentoAntigo = listaDeAgendamentos.get(i);
-            if(agendamentoAntigo.getId()==agendamentoParaAtualizar.getId());
+            if(agendamentoAntigo.getId()==agendamentoParaAtualizar.getId()){
             listaDeAgendamentos.set(i,agendamentoParaAtualizar);
             salvarNoJson();
             return;
+            }
         }
     }
+
+    public List<Agendamento> buscarPorEstacao(int estacaoNumero){
+        List<Agendamento> agendamentosEncontrados = new ArrayList<>();
+
+        for(Agendamento agendamentoDaLista : listaDeAgendamentos){
+            if(agendamentoDaLista.getEstacaoNumero() == estacaoNumero){
+                agendamentosEncontrados.add(agendamentoDaLista);
+
+            }
+        }
+        return agendamentosEncontrados;
+    }
+
+    public void finalizarAgendamento(int idAgendamento){
+        for(Agendamento agendamento : listaDeAgendamentos){
+            if(agendamento.getId() == idAgendamento){
+                agendamento.setStatus("Finalizado");
+                salvarNoJson();
+                return;
+            }
+        }
+    }
+
+
+
+
 }

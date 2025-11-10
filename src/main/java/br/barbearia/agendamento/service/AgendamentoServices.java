@@ -1,8 +1,12 @@
 package br.barbearia.agendamento.service;
 
 
+import br.barbearia.Loja.Memento.AgendamentoCaraTaker;
+import br.barbearia.Loja.Memento.AgendamentoMemento;
 import br.barbearia.agendamento.model.Agendamento;
+import br.barbearia.agendamento.model.Estacao;
 import br.barbearia.agendamento.model.Servicos;
+import br.barbearia.agendamento.repository.EstacaoRepository;
 import br.barbearia.model.Usuarios;
 import br.barbearia.agendamento.repository.AgendamentoRepository;
 import br.barbearia.agendamento.repository.ServicosRepository;
@@ -22,16 +26,22 @@ public class AgendamentoServices {
     private AgendamentoRepository agendamentoRepository;
     private UsuarioRepository usuarioRepository;
     private ServicosRepository servicosRepository;
+    private EstacaoRepository estacaoRepository;
+    private AgendamentoCaraTaker caraTaker;
+
 
     /**
      * O "Contrato de Trabalho" do Gerente.
      * Para contratá-lo (no Controller ou main),
      * você DEVE entregar os 3 repositórios para ele.
      */
-    public AgendamentoServices(AgendamentoRepository agendamentoRepository, UsuarioRepository usuarioRepository, ServicosRepository servicosRepository) {
+    public AgendamentoServices(AgendamentoRepository agendamentoRepository, UsuarioRepository usuarioRepository, ServicosRepository servicosRepository, EstacaoRepository estacaoRepository,AgendamentoCaraTaker caraTaker) {
         this.agendamentoRepository = agendamentoRepository;
         this.usuarioRepository = usuarioRepository;
         this.servicosRepository = servicosRepository;
+        this.estacaoRepository = estacaoRepository;
+        this.caraTaker = caraTaker;
+
     }
 
     /**
@@ -79,7 +89,7 @@ public class AgendamentoServices {
     /**
      * Cria e salva um novo agendamento, após validar tudo.
      */
-    public Agendamento salvarNovoAgendamento(LocalDate data, LocalTime hora, int clienteId, int servicoId, int funcionarioId) throws Exception {
+    public Agendamento salvarNovoAgendamento(LocalDate data, LocalTime hora, int clienteId, int servicoId, int funcionarioId, int estacaoId) throws Exception {
 
         System.out.println("LOG [Service]: Recebido pedido de agendamento. Validando...");
 
@@ -103,6 +113,11 @@ public class AgendamentoServices {
             throw new Exception("ERRO: O horário " + hora + " não está mais disponível. Por favor, escolha outro.");
         }
 
+        boolean ocupou = estacaoRepository.ocuparEstacao(estacaoId);
+        if(!ocupou){
+            throw new Exception("A estação" + estacaoId + "já está ocupada");
+        }
+
         System.out.println("LOG [Service]: Validações OK. Montando objeto...");
 
         Agendamento novoAgendamento = new Agendamento();
@@ -110,16 +125,50 @@ public class AgendamentoServices {
         novoAgendamento.setHora(hora);
         novoAgendamento.setClienteId(clienteId);
         novoAgendamento.setServicoId(servicoId);
+        novoAgendamento.setEstacaoNumero(estacaoId);
         novoAgendamento.setFuncionarioId(funcionarioId);
         novoAgendamento.setStatus("AGENDADO");
 
         novoAgendamento.setValorCobrado(servico.getValor());
+
 
         agendamentoRepository.adicionarAgendamento(novoAgendamento);
 
         System.out.println("LOG [Service]: Agendamento salvo com ID " + novoAgendamento.getId());
         return novoAgendamento;
     }
+
+    public void finalizarAgendamento(int agendamentoId)throws Exception{
+        Agendamento agendamento = agendamentoRepository.buscarPorId(agendamentoId);
+        if(agendamento == null){
+            throw new Exception("Agendamento não encontrado");
+        }
+        caraTaker.salvar(agendamento.salvarEstado());
+
+        agendamento.setStatus("Finalizado");
+        agendamentoRepository.atualizarAgendamento(agendamento);
+
+
+        boolean liberou = estacaoRepository.liberarEstacao(agendamento.getEstacaoNumero());
+        if(liberou){
+            System.out.printf("Estação liberada");
+        }else{
+            System.out.println("Estação já está livre");
+        }
+    }
+
+    public void desfazerFinalizacao(int id)throws Exception{
+        Agendamento agendamento = agendamentoRepository.buscarPorId(id);
+        if(agendamento == null) throw new Exception("Agendamento não encontrado");
+
+        AgendamentoMemento anterior = caraTaker.desfazer();
+        if(anterior == null)throw new Exception("Nenhum estado anterior salvo");
+
+        agendamento.restaurarEstado(anterior);
+        agendamentoRepository.atualizarAgendamento(agendamento);
+        System.out.println("Estado restaurado");
+    }
+
 
 
 }

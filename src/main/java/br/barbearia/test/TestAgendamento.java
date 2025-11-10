@@ -1,6 +1,8 @@
 package br.barbearia.test;
 
+import br.barbearia.Loja.Memento.AgendamentoCaraTaker;
 import br.barbearia.agendamento.repository.AgendamentoRepository;
+import br.barbearia.agendamento.repository.EstacaoRepository;
 import br.barbearia.agendamento.repository.ServicosRepository;
 import br.barbearia.agendamento.service.AgendamentoServices;
 import br.barbearia.agendamento.service.ServicesRoles;
@@ -18,10 +20,13 @@ public class TestAgendamento {
         AgendamentoRepository agendamentoRepository = new AgendamentoRepository("BarbeariaComMaven/Agendamento.JSON");
         ServicosRepository servicosRepository = new ServicosRepository("BarbeariaComMaven/Servicos.JSON");
         UsuarioRepository usuarioRepository = new UsuarioRepository("BarbeariaComMaven/Usuarios.JSON");
-        AgendamentoServices agendamentoServices = new AgendamentoServices(agendamentoRepository,usuarioRepository,servicosRepository);
+        EstacaoRepository  estacaoRepository = new EstacaoRepository();
+        AgendamentoCaraTaker caraTaker = new AgendamentoCaraTaker();
+        AgendamentoServices agendamentoServices = new AgendamentoServices(agendamentoRepository,usuarioRepository,servicosRepository, estacaoRepository,caraTaker);
 
 
         try{
+
 
 
         } catch (Exception e) {

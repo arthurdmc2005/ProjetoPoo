@@ -35,7 +35,7 @@ public class GerenciadorDeAgendamento {
      */
     public void adicionarServico(Agendamento servicoParaSalvar) {
 
-        System.out.println("LOG: Recebido " + servicoParaSalvar.getTipoDeServico() + ". Salvando...");
+        System.out.println("LOG: Recebido " + servicoParaSalvar.getServicoId() + ". Salvando...");
 
         List<Agendamento> listaDeServicos = carregarDoJson();
 

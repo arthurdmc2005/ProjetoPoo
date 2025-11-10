@@ -1,23 +1,42 @@
 package br.barbearia.agendamento.model;
 
+import br.barbearia.Loja.Memento.AgendamentoMemento;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Agendamento {
 
     private LocalDate data;
-    private String tipoDeServico;
-    private String autorDoServico;
     private int id;
     private String status;
     private LocalTime hora;
     private double valorCobrado;
-
-
-
+    private int estacaoNumero;
 
 
     private int clienteId;
+
+    public Agendamento(LocalDate data, int id, String status, LocalTime hora, double valorCobrado, int estacaoNumero, int clienteId, int servicoId, int funcionarioId) {
+        this.data = data;
+        this.id = id;
+        this.status = status;
+        this.hora = hora;
+        this.valorCobrado = valorCobrado;
+        this.estacaoNumero = estacaoNumero;
+        this.clienteId = clienteId;
+        this.servicoId = servicoId;
+        this.funcionarioId = funcionarioId;
+    }
+
+    //Construtores Memento
+    public AgendamentoMemento salvarEstado(){
+        return new AgendamentoMemento(this.status,this.estacaoNumero);
+    }
+    public void restaurarEstado(AgendamentoMemento memento){
+        this.status = memento.getStatus();
+        this.estacaoNumero = memento.getEstacaoNumero();
+    }
 
     public LocalTime getHora() {
         return hora;
@@ -38,6 +57,20 @@ public class Agendamento {
     private int servicoId;
 
     private int funcionarioId;
+
+    @Override
+    public String toString() {
+        return "Agendamento{" +
+                "data=" + data +
+                ", id=" + id +
+                ", status='" + status + '\'' +
+                ", hora=" + hora +
+                ", valorCobrado=" + valorCobrado +
+                ", clienteId=" + clienteId +
+                ", servicoId=" + servicoId +
+                ", funcionarioId=" + funcionarioId +
+                '}';
+    }
 
     public int getServicoId() {
         return servicoId;
@@ -67,19 +100,12 @@ public class Agendamento {
         return data;
     }
 
-    public Agendamento(LocalDate data, String tipoDeServico, String autorDoServico,String status) {
+    public Agendamento(LocalDate data, String status) {
         this.data = data;
-        this.tipoDeServico = tipoDeServico;
-        this.autorDoServico = autorDoServico;
         this.status = status;
     }
 
-    public Agendamento(String tipoDeServico, String autorDoServico){
-        this.tipoDeServico = tipoDeServico;
-        this.autorDoServico = autorDoServico;
-
-    }
-    public Agendamento(){
+    public Agendamento() {
 
     }
 
@@ -99,33 +125,16 @@ public class Agendamento {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "Agendamento{" +
-                "data=" + data +
-                ", tipoDeServico='" + tipoDeServico + '\'' +
-                ", autorDoServico='" + autorDoServico + '\'' +
-                ", id=" + id;
-
-    }
 
     public void setData(LocalDate data) {
         this.data = data;
     }
 
-    public String getTipoDeServico() {
-        return tipoDeServico;
+    public int getEstacaoNumero() {
+        return estacaoNumero;
     }
 
-    public void setTipoDeServico(String tipoDeServico) {
-        this.tipoDeServico = tipoDeServico;
-    }
-
-    public String getAutorDoServico() {
-        return autorDoServico;
-    }
-
-    public void setAutorDoServico(String autorDoServico) {
-        this.autorDoServico = autorDoServico;
+    public void setEstacaoNumero(int estacaoNumero) {
+        this.estacaoNumero = estacaoNumero;
     }
 }
