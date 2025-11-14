@@ -76,7 +76,7 @@ public class QuestõesRespondidas {
         // }
         //Questão 09:{
         System.out.println("====Questão 09====");
-        System.out.println("Precisa fazer!");
+        System.out.println("Mostrar o inicio das classes Repository!");
         // }
         //Questão 10:{
         System.out.println("====Questão 10====");
@@ -107,7 +107,7 @@ public class QuestõesRespondidas {
         // }
         //Questão 15:{
         System.out.println("====Questão 15====");
-        System.out.println("Precisa fazer");
+        System.out.println("Acessar a classe FilaEsperaRepository");
         // }
         //Questão 16:{
         System.out.println("====Questão 16====");

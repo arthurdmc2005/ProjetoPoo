@@ -59,7 +59,6 @@ public class AgendamentoRepository {
         if (agendamentoParaSalvar.getId() == 0) {
             agendamentoParaSalvar.setId(proximoId());
             listaDeAgendamentos.add(agendamentoParaSalvar);
-            salvarNoJson();
             System.out.println("LOG [Repo]: Agendamento salvo com ID " + agendamentoParaSalvar.getId());
         }
     }
@@ -103,7 +102,6 @@ public class AgendamentoRepository {
             Agendamento agendamentoAntigo = listaDeAgendamentos.get(i);
             if(agendamentoAntigo.getId()==agendamentoParaAtualizar.getId()){
             listaDeAgendamentos.set(i,agendamentoParaAtualizar);
-            salvarNoJson();
             return;
             }
         }
@@ -125,7 +123,6 @@ public class AgendamentoRepository {
         for(Agendamento agendamento : listaDeAgendamentos){
             if(agendamento.getId() == idAgendamento){
                 agendamento.setStatus("Finalizado");
-                salvarNoJson();
                 return;
             }
         }

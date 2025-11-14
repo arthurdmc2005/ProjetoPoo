@@ -38,11 +38,9 @@ public class ProdutosRepository {
         for(Produtos produto : listaDeProdutosEstoque){
             if(produto.getNomeProduto().equalsIgnoreCase(produtoParaAdicionar.getNomeProduto())){
                 produto.setQuantidade(produto.getQuantidade() + produtoParaAdicionar.getQuantidade());
-                salvarNoJson();
             }
         }
         listaDeProdutosEstoque.add(produtoParaAdicionar);
-        salvarNoJson();
     }
 
     public void removerQuantidadeDoProduto(String nomeDoProduto, double quantidadeParaRemover){
@@ -50,7 +48,6 @@ public class ProdutosRepository {
             if(produto.getNomeProduto()!=null && produto.getNomeProduto().equalsIgnoreCase(nomeDoProduto)){
                 double novaQuantidade = produto.getQuantidade()-quantidadeParaRemover;
                 produto.setQuantidade(novaQuantidade);
-                salvarNoJson();
                 break;
             }
         }
@@ -60,7 +57,6 @@ public class ProdutosRepository {
             if(produtos.getNomeProduto().equalsIgnoreCase(nomeDoProduto)){
                 double novaQuantidade = produtos.getQuantidade() + quantidadeParaAdicionar;
                 produtos.setQuantidade(novaQuantidade);
-                salvarNoJson();
                 break;
             }
         }
@@ -70,7 +66,6 @@ public class ProdutosRepository {
             Produtos estoqueAntigo = listaDeProdutosEstoque.get(i);
             if(novoProduto.getId()==estoqueAntigo.getId()){}
                 listaDeProdutosEstoque.set(i,novoProduto);
-            salvarNoJson();
             return;
 
         }

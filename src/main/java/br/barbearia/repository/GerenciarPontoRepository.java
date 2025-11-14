@@ -48,8 +48,8 @@ public class GerenciarPontoRepository {
         }else{
             return;
         }
-        salvarNoJson();
     }
+
 
     public List<RegistroPonto> buscarPorFuncionario(int funcionarioId){
 

@@ -52,7 +52,6 @@ public class RegistroDeVendasRepository {
                 System.out.println("Venda efetuada");
 
                 listaDeVendas.add(novaVenda);
-                salvarNoJson();
                 return novaVenda;
             }
             }

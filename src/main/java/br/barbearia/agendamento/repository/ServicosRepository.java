@@ -62,7 +62,6 @@ public class ServicosRepository {
     public void removerServico(int idParaRemover){
         boolean foiRemovido = listaDeServicos.removeIf(servicos -> servicos.getId()==idParaRemover);
         if(foiRemovido){
-            salvarNoJson();
         }
     }
 
@@ -72,7 +71,6 @@ public class ServicosRepository {
             Servicos servicoAntigo = listaDeServicos.get(i);
             if(servicoAntigo.getId()==servicoParaAtualizar.getId()){
                 listaDeServicos.set(i, servicoParaAtualizar);
-                salvarNoJson();
                 return; // Parar o loop depois de achar
 
             }

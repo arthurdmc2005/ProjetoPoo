@@ -61,12 +61,8 @@ public class UsuarioRepository{
             usuarioParaSalvar.setId(proximoId());
             listaDeUsuarios.add(usuarioParaSalvar);
             System.out.println("LOG: (CREATE) Usuário " + usuarioParaSalvar.getLogin() + " salvo.");
-
-        } else {
-            return;
         }
 
-        salvarNoJson();
     }
 
 
@@ -109,7 +105,6 @@ public class UsuarioRepository{
 
         if (foiRemovido) {
             System.out.println("LOG: (DELETE) Usuário ID " + idParaDeletar + " removido.");
-            salvarNoJson();
         }
     }
 
@@ -117,9 +112,6 @@ public class UsuarioRepository{
         boolean foiRemovido = listaDeUsuarios.removeIf(
                 usuarios -> usuarios.getCpf().equalsIgnoreCase(cpfParaDeletar)
         );
-        if(foiRemovido){
-            salvarNoJson();
-        }
     }
 
     public Usuarios buscarUsuarioPorCpf(String CpfParaBuscar){
@@ -144,4 +136,6 @@ public class UsuarioRepository{
     public List<Usuarios>listaDeUsuarios(){
         return listaDeUsuarios;
     }
+
+
 }
