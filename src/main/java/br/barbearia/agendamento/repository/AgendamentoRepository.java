@@ -131,6 +131,10 @@ public class AgendamentoRepository {
         }
     }
 
+    public List<Agendamento> listaDeAgendamentos(){
+        return listaDeAgendamentos;
+    }
+
 
 
 

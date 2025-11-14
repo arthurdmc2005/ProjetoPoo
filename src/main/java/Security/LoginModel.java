@@ -1,11 +1,14 @@
 package Security;
 
 public class LoginModel {
-
+    /**
+     * Declarando os atributos da LoginModel
+     */
     private String usuario;
     private String cpf;
     private String senhahash;
     private int id;
+
 
     public String getUsuario() {
         return usuario;
