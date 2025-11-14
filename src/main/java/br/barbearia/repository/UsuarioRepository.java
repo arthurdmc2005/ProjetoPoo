@@ -13,104 +13,33 @@ import java.io.File;
 import java.io.IOException;
 
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Repositório de Usuários que salva e lê de um arquivo JSON.
- */
-public class UsuarioRepository {
+public class UsuarioRepository{
 
 
-    /**
-     * Ferramenta que ''escreve'' o fichário;
-     */
-    private ObjectMapper objectMapper;
 
-    /**
-     * O "Endereço" do arquivo no disco.
-     */
-    private File arquivoJson;
+    private GerenciadorJSON<Usuarios> gerenciadorJSON;
 
+    private List<Usuarios> listaDeUsuarios;
 
-    /**
-     * Lista que armazenamos os Usuários e que faremos a leitura deles ( mais rápido do que o JSON )
-     */
-    private List<Usuarios> listaDeUsuariosCache;
-
-
-    /**
-     * O CONSTRUTOR.
-     * O que faz: Este bloco de código é executado UMA VEZ, no momento em que
-     * você cria o repositório (ex: new UsuarioRepository(...)).
-     * É o momento de "preparar a casa".
-     *
-     * @param caminhoDoArquivo O nome do arquivo que queremos usar (ex: "Usuarios.JSON")
-     */
     public UsuarioRepository(String caminhoDoArquivo) {
+        this.gerenciadorJSON = new GerenciadorJSON<>(caminhoDoArquivo, new TypeReference<List<Usuarios>>() {
+        });
 
-        /**
-         * Cria a instância do Jackson.
-         */
-        this.objectMapper = new ObjectMapper();
-
-        this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-
-        /**
-         * Cria o objeto "Endereço" que aponta para o nosso arquivo.
-         */
-        this.arquivoJson = new File(caminhoDoArquivo);
-
-        /**
-         * Chama nossa função (que está logo abaixo) para LER o arquivo
-         */
-        this.listaDeUsuariosCache = carregarDoJson();
+        this.listaDeUsuarios = this.gerenciadorJSON.carregar();
     }
 
-    /**
-     * Função PRIVADA (só o repositório usa) para LER o arquivo JSON.
-     * @return A lista de usuários que estava no arquivo.
-     */
-    private List<Usuarios> carregarDoJson() {
-
-        try {
-
-
-            if (!arquivoJson.exists()) {
-                return new ArrayList<>();
-            }
-
-
-            return objectMapper.readValue(arquivoJson, new TypeReference<List<Usuarios>>() {});
-
-        }
-
-        catch (IOException e) {
-            System.err.println("ERRO: Falha ao carregar o arquivo JSON: " + e.getMessage());
-            return new ArrayList<>();
-        }
+    public void salvarNoJson(){
+        gerenciadorJSON.salvar((this.listaDeUsuarios));
     }
 
-    /**
-     * Função PRIVADA (só o repositório usa) para SALVAR o cache no JSON.
-     */
-    private void salvarNoJson() {
-        try {
-            objectMapper.writeValue(arquivoJson, listaDeUsuariosCache);
-        } catch (IOException e) {
-            System.err.println("ERRO: Falha ao salvar o arquivo JSON: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Função PRIVADA para descobrir qual o próximo ID disponível.
-     * (Não podemos mais começar do 1, temos que olhar o que já foi salvo)
-     */
     private int proximoId() {
         int maxId = 0;
 
-        for (Usuarios usuario : listaDeUsuariosCache) {
+        for (Usuarios usuario : listaDeUsuarios) {
             if (usuario.getId() > maxId) {
                 maxId = usuario.getId();
             }
@@ -122,13 +51,15 @@ public class UsuarioRepository {
 
     /**
      * [CREATE / UPDATE] Salva ou Atualiza um usuário.
-     * Esta é a lógica "inteligente" que você aprendeu.
+     *
      */
+
+    //Questão 06: Salva um Usuário
     public void adicionarUsuario(Usuarios usuarioParaSalvar) {
 
         if (usuarioParaSalvar.getId() == 0) {
             usuarioParaSalvar.setId(proximoId());
-            listaDeUsuariosCache.add(usuarioParaSalvar);
+            listaDeUsuarios.add(usuarioParaSalvar);
             System.out.println("LOG: (CREATE) Usuário " + usuarioParaSalvar.getLogin() + " salvo.");
 
         } else {
@@ -139,12 +70,13 @@ public class UsuarioRepository {
     }
 
 
+    //Questão 06: Atualizar um Usuário
     public void atualizarUsuarioNaLista(Usuarios usuarioAtualizado) {
-        for (int i = 0; i < listaDeUsuariosCache.size(); i++) {
+        for (int i = 0; i < listaDeUsuarios.size(); i++) {
 
-            if (listaDeUsuariosCache.get(i).getId() == usuarioAtualizado.getId()) {
+            if (listaDeUsuarios.get(i).getId() == usuarioAtualizado.getId()) {
 
-                listaDeUsuariosCache.set(i, usuarioAtualizado);
+                listaDeUsuarios.set(i, usuarioAtualizado);
                 System.out.println("LOG: (UPDATE) Usuário " + usuarioAtualizado.getLogin() + " atualizado.");
                 return;
             }
@@ -157,7 +89,7 @@ public class UsuarioRepository {
      * (Exatamente o seu código perfeito de antes!)
      */
     public Usuarios buscarPorLogin(String loginParaBuscar) {
-        for (Usuarios usuarioDaLista : listaDeUsuariosCache) {
+        for (Usuarios usuarioDaLista : listaDeUsuarios) {
 
             if(usuarioDaLista.getLogin() != null && usuarioDaLista.getLogin().equals(loginParaBuscar)){
 
@@ -171,7 +103,7 @@ public class UsuarioRepository {
      * [DELETE] Deleta um usuário pelo seu ID.
      */
     public void removerUsuarioPeloId(int idParaDeletar) {
-        boolean foiRemovido = listaDeUsuariosCache.removeIf(
+        boolean foiRemovido = listaDeUsuarios.removeIf(
                 usuario -> usuario.getId() == idParaDeletar
         );
 
@@ -181,8 +113,17 @@ public class UsuarioRepository {
         }
     }
 
+    public void removerUsuarioPeloCpf(String cpfParaDeletar){
+        boolean foiRemovido = listaDeUsuarios.removeIf(
+                usuarios -> usuarios.getCpf().equalsIgnoreCase(cpfParaDeletar)
+        );
+        if(foiRemovido){
+            salvarNoJson();
+        }
+    }
+
     public Usuarios buscarUsuarioPorCpf(String CpfParaBuscar){
-        for (Usuarios usuariosDaLista : listaDeUsuariosCache){
+        for (Usuarios usuariosDaLista : listaDeUsuarios){
             if (usuariosDaLista.getCpf()!= null && usuariosDaLista.getCpf().equals(CpfParaBuscar)){
                 return usuariosDaLista;
             }
@@ -192,11 +133,15 @@ public class UsuarioRepository {
     }
 
     public Usuarios buscarPorId(int idBuscado){
-        for(Usuarios usuariosDaLista : listaDeUsuariosCache){
+        for(Usuarios usuariosDaLista : listaDeUsuarios){
             if(usuariosDaLista.getId()== idBuscado){
                 return usuariosDaLista;
             }
         }
         return null;
+    }
+
+    public List<Usuarios>listaDeUsuarios(){
+        return listaDeUsuarios;
     }
 }

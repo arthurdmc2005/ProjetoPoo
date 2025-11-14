@@ -3,8 +3,13 @@ package br.barbearia.service;
 
 import br.barbearia.model.Usuarios;
 import br.barbearia.repository.UsuarioRepository;
+import br.barbearia.model.CompareNameCliente;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 
 import java.rmi.server.ExportException;
+import java.util.List;
 
 public class UsuarioServices {
 
@@ -96,6 +101,26 @@ public class UsuarioServices {
 
     }
 
+    //Questão 07: Remover Clientes(Usuários)
+    public void removerUsuarioPeloCpf(String cpfDoUsuarioASerRemovido)throws Exception{
+        if(cpfDoUsuarioASerRemovido == null || cpfDoUsuarioASerRemovido.trim().isEmpty()){
+        throw new Exception("O cpf não pode ser nulo");
+        }
+        String cpfLimpo = cpfDoUsuarioASerRemovido.replaceAll("[^0=9]","");
+
+        if(cpfLimpo.length()!=11){
+            throw new Exception("O cpf deve ter 11 digitos");
+        }
+        Usuarios usuarioParaRemover = usuarioRepository.buscarUsuarioPorCpf(cpfLimpo);
+
+        if(usuarioParaRemover == null){
+            throw new Exception("Cpf não encontrado");
+        }
+
+        usuarioRepository.removerUsuarioPeloCpf(cpfLimpo);
+    }
+
+
     public void atualizarUsuarioNaLista(Usuarios usuarioAtualizado)throws Exception{
         if(usuarioAtualizado.getNome()==null || usuarioAtualizado.getNome().trim().isEmpty()){
             throw new Exception("Coloca o nome merda");
@@ -109,6 +134,9 @@ public class UsuarioServices {
         usuarioRepository.atualizarUsuarioNaLista(usuarioAtualizado);
         //volte aqui depois;
     }
+
+
+
 
 
 
