@@ -1,6 +1,6 @@
 package br.barbearia.agendamento.model;
 
-import br.barbearia.Loja.Memento.AgendamentoMemento;
+import br.barbearia.agendamento.Memento.AgendamentoMemento;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -29,10 +29,11 @@ public class Agendamento {
         this.funcionarioId = funcionarioId;
     }
 
-    //Construtores Memento
+    //métodos do Originator ( Agendamento )
     public AgendamentoMemento salvarEstado(){
         return new AgendamentoMemento(this.status,this.estacaoNumero);
     }
+
     public void restaurarEstado(AgendamentoMemento memento){
         this.status = memento.getStatus();
         this.estacaoNumero = memento.getEstacaoNumero();
