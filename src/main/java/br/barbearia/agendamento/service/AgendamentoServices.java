@@ -1,10 +1,9 @@
 package br.barbearia.agendamento.service;
 
 
-import br.barbearia.Loja.Memento.AgendamentoCaraTaker;
-import br.barbearia.Loja.Memento.AgendamentoMemento;
+import br.barbearia.agendamento.Memento.AgendamentoCaraTaker;
+import br.barbearia.agendamento.Memento.AgendamentoMemento;
 import br.barbearia.agendamento.model.Agendamento;
-import br.barbearia.agendamento.model.Estacao;
 import br.barbearia.agendamento.model.Servicos;
 import br.barbearia.agendamento.repository.EstacaoRepository;
 import br.barbearia.model.Usuarios;

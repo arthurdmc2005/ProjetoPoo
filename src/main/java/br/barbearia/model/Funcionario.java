@@ -15,13 +15,15 @@ public class Funcionario extends Pessoa {
                 '}';
     }
 
+    //Questão 04: Utilizando a palavra-chave ''super''
     public Funcionario(String nome, String cpf, int id, String cargo, double salario, String telefone) {
         super(nome, cpf);
         this.id = id;
         this.cargo = cargo;
         this.salario = salario;
     }
-    
+
+    //Questão 04: Utilizando a palavra-chave ''super''
     public Funcionario(String nome, String cpf, String cargo, double salario){
         super(nome,cpf);
         this.cargo = cargo;

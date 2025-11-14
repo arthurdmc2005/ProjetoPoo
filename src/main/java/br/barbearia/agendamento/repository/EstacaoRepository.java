@@ -6,7 +6,7 @@ import java.util.List;
 
 public class EstacaoRepository {
 
-    // Vetor estático com 3 estações fixas
+    //Questão 5: Armazenando de forma estática em um vetor de tamanho fixo
     private Estacao[] estacoes = {
             new Estacao(1, true),   // Estação 1 com lavagem e secador
             new Estacao(2, false),  // Estação 2 comum

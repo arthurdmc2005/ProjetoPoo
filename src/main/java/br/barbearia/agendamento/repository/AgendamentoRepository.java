@@ -2,6 +2,8 @@ package br.barbearia.agendamento.repository;
 
 import br.barbearia.agendamento.model.Agendamento;
 import br.barbearia.agendamento.model.Estacao;
+import br.barbearia.model.Usuarios;
+import br.barbearia.repository.GerenciadorJSON;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -19,46 +21,19 @@ import java.util.List;
  */
 public class AgendamentoRepository {
 
-    private ObjectMapper objectMapper;
-    private File arquivoJson;
+    private GerenciadorJSON<Agendamento> gerenciadorJSON;
 
     private List<Agendamento> listaDeAgendamentos;
 
     public AgendamentoRepository(String caminhoDoArquivo) {
+        this.gerenciadorJSON = new GerenciadorJSON<>(caminhoDoArquivo, new TypeReference<List<Agendamento>>() {
+        });
 
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        this.objectMapper.registerModule(new JavaTimeModule());
-
-        this.arquivoJson = new File(caminhoDoArquivo);
-        this.listaDeAgendamentos = carregarDoJson();
+        this.listaDeAgendamentos     = this.gerenciadorJSON.carregar();
     }
 
-    /**
-     *  Carrega a lista do JSON para o cache.
-     */
-    private List<Agendamento> carregarDoJson() {
-        try {
-            if (!arquivoJson.exists()) {
-                return new ArrayList<>();
-            }
-            return objectMapper.readValue(arquivoJson, new TypeReference<List<Agendamento>>() {});
-        } catch (IOException e) {
-            System.err.println("ERRO: Falha ao carregar JSON de Agendamentos: " + e.getMessage());
-            return new ArrayList<>();
-        }
-    }
-
-    /**
-     *  Salva o cache (lista) de volta no JSON.
-     */
-    private void salvarNoJson() {
-        try {
-            objectMapper.writeValue(arquivoJson, listaDeAgendamentos);
-        } catch (IOException e) {
-            System.err.println("ERRO: Falha ao salvar JSON de Agendamentos: " + e.getMessage());
-        }
+    public void salvarNoJson(){
+        gerenciadorJSON.salvar((this.listaDeAgendamentos));
     }
 
     /**

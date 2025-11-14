@@ -4,6 +4,8 @@ package br.barbearia.agendamento.repository;
 import br.barbearia.agendamento.model.Agendamento;
 import br.barbearia.agendamento.model.Servicos;
 import br.barbearia.agendamento.service.ServicesRoles;
+import br.barbearia.model.Usuarios;
+import br.barbearia.repository.GerenciadorJSON;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -17,63 +19,19 @@ import java.util.List;
 
 public class ServicosRepository {
 
-    private ServicesRoles servicesRoles;
+    private GerenciadorJSON<Servicos> gerenciadorJSON;
 
-
-    private ObjectMapper objectMapper;
-
-    private File arquivoJson;
-
-    List<Servicos> listaDeServicos;
+    private List<Servicos> listaDeServicos;
 
     public ServicosRepository(String caminhoDoArquivo) {
+        this.gerenciadorJSON = new GerenciadorJSON<>(caminhoDoArquivo, new TypeReference<List<Servicos>>() {
+        });
 
-        /**
-         * Cria a instância;
-         */
-        this.objectMapper = new ObjectMapper();
-
-        this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        /**
-         * Cria o objeto "Endereço" que aponta para o nosso arquivo.
-         */
-        this.arquivoJson = new File(caminhoDoArquivo);
-
-        /**
-         * Chama nossa função (que está logo abaixo) para LER o arquivo
-         */
-        this.listaDeServicos = carregarDoJson();
+        this.listaDeServicos = this.gerenciadorJSON.carregar();
     }
 
-    /**
-     * Função PRIVADA (só o repositório usa) para LER o arquivo JSON.
-     * @return A listaDeAgendamentosa de serviços que estava no arquivo.
-     */
-    private List<Servicos> carregarDoJson() {
-        try {
-            if (!arquivoJson.exists()) {
-                return new ArrayList<>();
-            }
-
-
-            return objectMapper.readValue(arquivoJson, new TypeReference<List<Servicos>>() {});
-
-        } catch (IOException e) {
-            System.err.println("ERRO: Falha ao carregar JSON de serviços: " + e.getMessage());
-            return new ArrayList<>();
-        }
-    }
-
-    /**
-     * Função PRIVADA (só o repositório usa) para SALVAR o cache no JSON.
-     */
-    private void salvarNoJson() {
-        try {
-            objectMapper.writeValue(arquivoJson, listaDeServicos);
-        } catch (IOException e) {
-            System.err.println("ERRO: Falha ao salvar JSON de serviços: " + e.getMessage());
-        }
+    public void salvarNoJson(){
+        gerenciadorJSON.salvar((this.listaDeServicos));
     }
 
 
