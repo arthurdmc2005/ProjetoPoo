@@ -1,8 +1,8 @@
-package br.barbearia.Loja.service;
+package br.barbearia.Financeiro.service;
 
-import br.barbearia.Loja.model.Produtos;
-import br.barbearia.Loja.repository.ProdutosRepository;
-import br.barbearia.model.Usuarios;
+import br.barbearia.Financeiro.model.Produtos;
+import br.barbearia.Financeiro.repository.ProdutosRepository;
+
 import java.util.List;
 
 public class ProdutosService {
@@ -13,11 +13,12 @@ public class ProdutosService {
         this.produtosRepository = produtosRepository;
     }
 
-    public Produtos cadastrarProdutoNoEstoque(String nomeDoProduto, double quantidadeDoProduto, String fornecedor)throws Exception{
+    public Produtos cadastrarProdutoNoEstoque(String nomeDoProduto, double quantidadeDoProduto, String fornecedor, double valor)throws Exception{
         Produtos produtosParaCadastrar = new Produtos();
         produtosParaCadastrar.setNomeProduto(nomeDoProduto);
         produtosParaCadastrar.setFornecedor(fornecedor);
         produtosParaCadastrar.setQuantidade(quantidadeDoProduto);
+        produtosParaCadastrar.setValor(valor);
 
         return this.cadastrarProdutoNoEstoque(produtosParaCadastrar);
 
@@ -35,6 +36,12 @@ public class ProdutosService {
         }
         if(novoProduto.getQuantidade()>100){
             throw new Exception("A quantidade não pode ser maior que 100");
+        }
+        if(novoProduto.getValor()<0){
+            throw new Exception("O valor do produto não pode ser negativo");
+        }
+        if(novoProduto.getValor()==0){
+            throw new Exception("O valor do produto não pode ser 0");
         }
         System.out.println("Validado com sucesso");
         produtosRepository.adicionarProdutoAoEstoque(novoProduto);

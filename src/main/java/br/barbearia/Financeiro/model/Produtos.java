@@ -1,4 +1,4 @@
-package br.barbearia.Loja.model;
+package br.barbearia.Financeiro.model;
 
 public class Produtos {
 
@@ -6,6 +6,7 @@ public class Produtos {
     private double quantidade;
     private String fornecedor;
     private int id;
+    private double valor;
 
 
 
@@ -15,6 +16,13 @@ public class Produtos {
         this.fornecedor = fornecedor;
         this.id = id;
     }
+    public Produtos(String nomeProduto, double quantidade, String fornecedor, int id, double valor){
+        this.nomeProduto = nomeProduto;
+        this.quantidade = quantidade;
+        this.fornecedor = fornecedor;
+        this.id = id;
+        this.valor = valor;
+    }
 
 
     public Produtos(){
@@ -23,13 +31,15 @@ public class Produtos {
 
     @Override
     public String toString() {
-        return "EstoqueModel{" +
+        return "Produtos{" +
                 "nomeProduto='" + nomeProduto + '\'' +
                 ", quantidade=" + quantidade +
                 ", fornecedor='" + fornecedor + '\'' +
                 ", id=" + id +
+                ", valor=" + valor +
                 '}';
     }
+
     public String getFornecedor() {
         return fornecedor;
     }
@@ -44,6 +54,14 @@ public class Produtos {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public double getQuantidade() {

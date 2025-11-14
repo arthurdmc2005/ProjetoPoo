@@ -1,52 +1,29 @@
-package br.barbearia.Loja.repository;
+package br.barbearia.Financeiro.repository;
 
-import br.barbearia.Loja.model.Produtos;
+import br.barbearia.Financeiro.model.Produtos;
+import br.barbearia.repository.GerenciadorJSON;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutosRepository {
 
-    private ObjectMapper objectMapper;
-    private File arquivoJson;
+    private GerenciadorJSON<Produtos> gerenciadorJSON;
 
-    List<Produtos> listaDeProdutosEstoque;
+    private List<Produtos> listaDeProdutosEstoque;
 
-    public ProdutosRepository(String caminhoDoArquivo){
-        this.objectMapper = new ObjectMapper();
+    public ProdutosRepository(String caminhoDoArquivo) {
+        this.gerenciadorJSON = new GerenciadorJSON<>(caminhoDoArquivo, new TypeReference<List<Produtos>>() {
+        });
 
-        this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        this.arquivoJson = new File(caminhoDoArquivo);
-
-        this.listaDeProdutosEstoque = carregarDoJson();
+        this.listaDeProdutosEstoque = this.gerenciadorJSON.carregar();
     }
-    private List<Produtos> carregarDoJson() {
-        try {
-            if (!arquivoJson.exists()) {
-                return new ArrayList<>();
-            }
 
-
-            return objectMapper.readValue(arquivoJson, new TypeReference<List<Produtos>>() {});
-
-        } catch (IOException e) {
-            System.err.println("ERRO: Falha ao carregar JSON de serviços: " + e.getMessage());
-            return new ArrayList<>();
-        }
+    public void salvarNoJson(){
+        gerenciadorJSON.salvar((this.listaDeProdutosEstoque));
     }
-    private void salvarNoJson() {
-        try {
-            objectMapper.writeValue(arquivoJson, listaDeProdutosEstoque);
-        } catch (IOException e) {
-            System.err.println("ERRO: Falha ao salvar JSON de serviços: " + e.getMessage());
-        }
-    }
+
+
     private int proximoId() {
         int maxId = 0;
         for (Produtos produtos : listaDeProdutosEstoque) {
