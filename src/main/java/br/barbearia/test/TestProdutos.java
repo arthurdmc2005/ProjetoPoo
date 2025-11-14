@@ -1,10 +1,7 @@
 package br.barbearia.test;
 
-import br.barbearia.Loja.model.Produtos;
-import br.barbearia.Loja.repository.ProdutosRepository;
-import br.barbearia.Loja.service.ProdutosService;
-import br.barbearia.agendamento.service.ServicesRoles;
-import java.util.List;
+import br.barbearia.Financeiro.repository.ProdutosRepository;
+import br.barbearia.Financeiro.service.ProdutosService;
 
 public class TestProdutos {
     public static void main(String[] args) throws Exception {

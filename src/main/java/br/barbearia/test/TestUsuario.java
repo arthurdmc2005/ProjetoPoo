@@ -4,6 +4,9 @@ import br.barbearia.repository.UsuarioRepository;
 import br.barbearia.service.*;
 import br.barbearia.model.*;
 
+import java.util.Comparator;
+import java.util.List;
+
 public class TestUsuario {
 
     public static void main(String[] args) {
@@ -14,21 +17,16 @@ public class TestUsuario {
         System.out.println("TESTANDO O CADASTRO DE USUARIOS NO JSON");
 
         try{
-            usuarioServices.cadastrarUsuario("chrisbostao","01973214612","31998777425","Funcionario","mameigostosoopelli","fodasemerdacu");
+            List<Usuarios> listaParaOrdenar = usuarioRepository.listaDeUsuarios();
+            System.out.println("Lista antes: " + listaParaOrdenar);
+            Comparator<Usuarios> ordenadorDeNomes = new CompareNameCliente();
+            listaParaOrdenar.sort(ordenadorDeNomes);
+            System.out.printf("Lista Depois: " + listaParaOrdenar);
 
 
         } catch (Exception e) {
-            System.out.println("Falha no cadastro");
             throw new RuntimeException(e);
         }
-        try{
-            usuarioServices.removerUsuario(1);
-        } catch (Exception e) {
-            System.out.printf("deu merda");
-            throw new RuntimeException(e);
-        }
-
-
 
     }
 }

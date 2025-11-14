@@ -1,17 +1,11 @@
 package br.barbearia.test;
 
-import br.barbearia.Loja.Memento.AgendamentoCaraTaker;
+import br.barbearia.agendamento.Memento.AgendamentoCaraTaker;
 import br.barbearia.agendamento.repository.AgendamentoRepository;
 import br.barbearia.agendamento.repository.EstacaoRepository;
 import br.barbearia.agendamento.repository.ServicosRepository;
 import br.barbearia.agendamento.service.AgendamentoServices;
-import br.barbearia.agendamento.service.ServicesRoles;
 import br.barbearia.repository.UsuarioRepository;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-
-import java.util.*;
 
 public class TestAgendamento {
 
@@ -26,6 +20,10 @@ public class TestAgendamento {
 
 
         try{
+
+
+
+
 
 
 
