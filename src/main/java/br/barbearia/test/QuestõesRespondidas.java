@@ -152,20 +152,21 @@ public class QuestõesRespondidas {
         System.out.println("Acessar a classe FilaEsperaRepository");
         // }
         //Questão 16:{
-        demonstrarQuestao17(usuarioRepository);
+        System.out.printf("JavaDoc feito e gerado");
         //Questão 17:{
         System.out.println("====Questão 17====");
-        demonstrarQuestao17(usuarioRepository);
+        System.out.printf("Iterator");
 
-        //Iterator<Usuarios> iteratorUsuarios = usuarioRepository.listaDeUsuarios().iterator();
-        //while (IteratorUsuarios.hasNext()){
-            //Usuarios usuarioAtual= iteratorUsuarios.next();
-        //}
-        // }
         //Questão 18:{
         System.out.println("====Questão 18====");
-        System.out.println("Precisa fazer");
+        System.out.println(" Questão relacionada a apicação do metado sort e o comparator implementado(Classes CompareNameCliente e CompareDateAgendamento)");
         // }
+        //Questão 19:{
+        System.out.printf("====Questão 19====");
+        System.out.printf("Questão relacionada a procura utilizando BinarySearch ( Mostrar o funcionamento a partir da classe Barbearia");
+        //Questão 20:{
+        System.out.println("====Questão 20====");
+        System.out.println("Precisa fazer");
 
 
 

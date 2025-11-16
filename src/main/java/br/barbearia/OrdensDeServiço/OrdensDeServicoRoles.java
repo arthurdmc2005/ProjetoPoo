@@ -1,7 +1,6 @@
 package br.barbearia.OrdensDeServiço;
 
-import br.barbearia.repository.UsuarioRepository;
-import net.bytebuddy.asm.Advice; // Esta importação parece não ser utilizada
+import br.barbearia.Financeiro.service.NotaFiscalService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,10 @@ public class OrdensDeServicoRoles {
 
     /** O repositório que gerencia a persistência dos dados de Ordens de Serviço. */
     private OrdensDeServicoRepository ordensDeServicoRepository;
+    /**
+     * O repositório que gerencia as funcionalidades de notafiscal;
+     */
+    private NotaFiscalService notaFiscalService;
 
     /**
      * Construtor da classe de serviço.
@@ -30,8 +33,9 @@ public class OrdensDeServicoRoles {
      * @param ordensDeServicoRepository A instância do repositório
      * a ser usada por este serviço.
      */
-    public OrdensDeServicoRoles(OrdensDeServicoRepository ordensDeServicoRepository){
+    public OrdensDeServicoRoles(OrdensDeServicoRepository ordensDeServicoRepository, NotaFiscalService notaFiscalService){
         this.ordensDeServicoRepository = ordensDeServicoRepository;
+        this.notaFiscalService = notaFiscalService;
     }
 
     /**
@@ -97,6 +101,11 @@ public class OrdensDeServicoRoles {
             throw new Exception("Coloque um diagnostico para o serviço");
         }
         ordensDeServicoRepository.registrarOrdemDeServico(novaOrdemDeServico);
+        try{
+            notaFiscalService.gerarNotaParaOrdem(novaOrdemDeServico);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return novaOrdemDeServico;
     }
 
