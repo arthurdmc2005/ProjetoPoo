@@ -96,7 +96,7 @@ public class UsuarioServices {
         }
 
         String tipoDoUsuario = novoUsuario.getTipo();
-        if(novoUsuario.getTipo()==null && novoUsuario.getTipo().trim().isEmpty()){
+        if(novoUsuario.getTipo()==null || novoUsuario.getTipo().trim().isEmpty()){
             throw new Exception("Preencha o tipo de Usuário");
         }
 

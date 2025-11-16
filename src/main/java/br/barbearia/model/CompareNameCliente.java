@@ -67,5 +67,12 @@ public class CompareNameCliente implements Comparator<Usuarios> {
         return nome1.length() - nome2.length();
     }
 
+    /**
+     * Construtor padrão
+     */
+    public CompareNameCliente(){
+
+    }
+
 
 }

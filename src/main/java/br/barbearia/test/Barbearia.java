@@ -10,7 +10,7 @@ import br.barbearia.Financeiro.service.RegistroDeVendasServices;
 import br.barbearia.OrdensDeServiço.OrdensDeServicoModel;
 import br.barbearia.OrdensDeServiço.OrdensDeServicoRepository;
 import br.barbearia.OrdensDeServiço.OrdensDeServicoRoles;
-import br.barbearia.agendamento.Memento.AgendamentoCaraTaker; // Import adicionado
+import br.barbearia.agendamento.Memento.AgendamentoCaraTaker;
 import br.barbearia.agendamento.model.Agendamento;
 import br.barbearia.agendamento.model.ComparateDateAgendamento;
 import br.barbearia.agendamento.model.Estacao;
@@ -18,7 +18,7 @@ import br.barbearia.agendamento.model.Servicos;
 import br.barbearia.agendamento.repository.AgendamentoRepository;
 import br.barbearia.agendamento.repository.EstacaoRepository;
 import br.barbearia.agendamento.repository.ServicosRepository;
-import br.barbearia.agendamento.service.AgendamentoServices; // Import adicionado
+import br.barbearia.agendamento.service.AgendamentoServices;
 import br.barbearia.agendamento.service.ServicesRoles;
 import br.barbearia.model.CompareNameCliente;
 import br.barbearia.model.Usuarios;
@@ -27,9 +27,14 @@ import br.barbearia.service.BalanceService;
 import br.barbearia.service.UsuarioServices;
 
 
-import java.time.LocalDate; // Import adicionado
-import java.time.LocalTime; // Import adicionado
-import java.time.format.DateTimeFormatter; // Import adicionado
+import br.barbearia.Financeiro.model.NotaFiscalModel;
+import br.barbearia.Financeiro.repository.NotaFiscalRepository;
+import br.barbearia.Financeiro.service.NotaFiscalService;
+
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,52 +43,95 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Menu principal do Sistema de Barbearia, focado nas funcionalidades.
- * (Corrigido para incluir a criação de agendamentos)
+ * Classe principal (main) do Sistema de Barbearia.
+ * <p>
+ * Funciona como um menu de console (CLI) para interagir com todas as
+ * funcionalidades do sistema, como gestão de pessoas, agendamentos,
+ * vendas, finanças e testes de requisitos (Questões 16, 17, etc.).
+ * </p>
+ * (Atualizado com NotaFiscal)
+ *
+ * @see br.barbearia.service.UsuarioServices
+ * @see br.barbearia.agendamento.service.AgendamentoServices
+ * @see br.barbearia.OrdensDeServiço.OrdensDeServicoRoles
+ * @see br.barbearia.Financeiro.service.NotaFiscalService
  */
 public class Barbearia {
 
+    /** Caminho para o arquivo JSON de Usuários. */
     private static final String PATH_USUARIOS = "BarbeariaComMaven/Usuarios.JSON";
+    /** Caminho para o arquivo JSON de Serviços. */
     private static final String PATH_SERVICOS = "BarbeariaComMaven/Servicos.JSON";
+    /** Caminho para o arquivo JSON de Ordens de Serviço. */
     private static final String PATH_ORDENS = "BarbeariaComMaven/OrdensDeServico.JSON";
+    /** Caminho para o arquivo JSON de Agendamentos. */
     private static final String PATH_AGENDAMENTOS = "BarbeariaComMaven/Agendamento.JSON";
+    /** Caminho para o arquivo JSON de Vendas de Produtos. */
     private static final String PATH_VENDAS = "BarbeariaComMaven/Vendas.JSON";
+    /** Caminho para o arquivo JSON de Produtos (Estoque). */
     private static final String PATH_PRODUTOS = "BarbeariaComMaven/Produtos.JSON";
+    /** Caminho para o arquivo JSON de Notas Fiscais. */
+    private static final String PATH_NOTAS_FISCAIS = "BarbeariaComMaven/NotasFiscais.JSON";
 
+    /** Instância global do Scanner para leitura do console. */
     private static final Scanner scanner = new Scanner(System.in);
 
-    // Formatadores de data/hora
+    /** Formatador padrão para datas (dd/MM/yyyy). */
     private static final DateTimeFormatter dtfData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    /** Formatador padrão para horas (HH:mm). */
     private static final DateTimeFormatter dtfHora = DateTimeFormatter.ofPattern("HH:mm");
 
-    // Repositórios
+    //--- Repositórios ---
+    /** Repositório para acesso aos dados de Usuários. */
     private static final UsuarioRepository usuarioRepository = new UsuarioRepository(PATH_USUARIOS);
+    /** Repositório para acesso aos dados de Serviços. */
     private static final ServicosRepository servicosRepository = new ServicosRepository(PATH_SERVICOS);
+    /** Repositório para acesso aos dados de Ordens de Serviço. */
     private static final OrdensDeServicoRepository osRepository = new OrdensDeServicoRepository(PATH_ORDENS);
+    /** Repositório para acesso aos dados de Agendamentos. */
     private static final AgendamentoRepository agendamentoRepository = new AgendamentoRepository(PATH_AGENDAMENTOS);
+    /** Repositório para acesso aos dados das Estações de Atendimento. */
     private static final EstacaoRepository estacaoRepository = new EstacaoRepository();
+    /** Repositório para acesso aos dados de Produtos (Estoque). */
     private static final ProdutosRepository produtosRepository = new ProdutosRepository(PATH_PRODUTOS);
+    /** Repositório para acesso aos dados de Vendas. */
     private static final RegistroDeVendasRepository vendasRepository = new RegistroDeVendasRepository(PATH_VENDAS);
+    /** Repositório para acesso aos dados de Notas Fiscais. */
+    private static final NotaFiscalRepository notaFiscalRepository = new NotaFiscalRepository(PATH_NOTAS_FISCAIS);
+    /** Instância do Caretaker (Zelador) do padrão Memento para Agendamentos. */
+    private static final AgendamentoCaraTaker caraTaker = new AgendamentoCaraTaker();
 
-    // Memento
-    private static final AgendamentoCaraTaker caraTaker = new AgendamentoCaraTaker(); // ADICIONADO
-
-    // Serviços
+    //--- Serviços ---
+    /** Serviço para regras de negócio de Usuários. */
     private static final UsuarioServices usuarioServices = new UsuarioServices(usuarioRepository);
+    /** Serviço para regras de negócio de Serviços. */
     private static final ServicesRoles servicesRoles = new ServicesRoles(servicosRepository);
-    private static final OrdensDeServicoRoles osRoles = new OrdensDeServicoRoles(osRepository);
+    /** Serviço para regras de negócio de Produtos (Estoque). */
     private static final ProdutosService produtosService = new ProdutosService(produtosRepository);
+    /** Serviço para regras de negócio de Vendas. */
     private static final RegistroDeVendasServices vendasServices = new RegistroDeVendasServices(vendasRepository, usuarioRepository);
+    /** Serviço para regras de negócio de Balanço Financeiro. */
     private static final BalanceService balanceService = new BalanceService(osRepository);
+    /** Serviço para regras de negócio de Notas Fiscais. */
+    private static final NotaFiscalService notaFiscalService = new NotaFiscalService(notaFiscalRepository, usuarioRepository);
 
-    // SERVIÇO DE AGENDAMENTO (ESSENCIAL) - ADICIONADO
+    //--- Serviços com Dependências ---
+    /** Serviço para regras de negócio de Agendamentos. */
     private static final AgendamentoServices agendamentoServices = new AgendamentoServices(agendamentoRepository, usuarioRepository, servicosRepository, estacaoRepository, caraTaker);
+    /** Serviço para regras de negócio de Ordens de Serviço (injeta o serviço de NF). */
+    private static final OrdensDeServicoRoles osRoles = new OrdensDeServicoRoles(osRepository, notaFiscalService);
 
 
     /**
-     * Ponto de entrada principal do aplicativo.
+     * Ponto de entrada principal do aplicativo (main).
+     * <p>
+     * Exibe o menu principal em loop até que o usuário escolha a opção "0" para sair.
+     * </p>
+     * @param args Argumentos de linha de comando (não utilizados).
      */
+
     public static void main(String[] args) {
+
         System.out.println("=========================================");
         System.out.println("   BEM-VINDO AO SISTEMA DA BARBEARIA");
         System.out.println("=========================================");
@@ -98,7 +146,7 @@ public class Barbearia {
                     exibirMenuPessoas();
                     break;
                 case "2":
-                    exibirMenuAgendamentos(); // Corrigido
+                    exibirMenuAgendamentos();
                     break;
                 case "3":
                     exibirMenuLojaEEstoque();
@@ -117,20 +165,23 @@ public class Barbearia {
     }
 
 
-
+    /**
+     * Imprime o menu principal no console.
+     */
     private static void printMenuPrincipal() {
         System.out.println("\n--- MENU PRINCIPAL ---");
         System.out.println("1. Gestão de Pessoas (Clientes/Colaboradores)");
         System.out.println("2. Agendamentos e Serviços");
         System.out.println("3. Loja e Estoque");
-        System.out.println("4. Painel Administrativo (Debug/Testes)");
+        System.out.println("4. Painel Administrativo (Financeiro/Testes)");
         System.out.println("----------------------");
         System.out.println("0. Salvar e Sair");
         System.out.print("Escolha uma opção: ");
     }
 
     /**
-     * Menu para gerenciar Clientes e Colaboradores.
+     * Exibe o submenu "Gestão de Pessoas".
+     * Trata exceções de sub-métodos.
      */
     private static void exibirMenuPessoas() {
         while (true) {
@@ -170,18 +221,18 @@ public class Barbearia {
     }
 
     /**
-     * Menu para gerenciar Agendamentos e Ordens de Serviço.
-     * (MENU CORRIGIDO)
+     * Exibe o submenu "Agendamentos e Serviços".
+     * Trata exceções de sub-métodos.
      */
     private static void exibirMenuAgendamentos() {
         while (true) {
             System.out.println("\n--- 2. Agendamentos e Serviços ---");
-            System.out.println("1. Criar Novo Agendamento"); // ADICIONADO
-            System.out.println("2. Finalizar Agendamento"); // ADICIONADO
-            System.out.println("3. Listar Estações de Atendimento"); // Re-numerado
-            System.out.println("4. Listar Agendamentos (Ordenado por Data)"); // Re-numerado
-            System.out.println("5. Registrar Nova Ordem de Serviço"); // Re-numerado
-            System.out.println("6. Consultar Ordens de Serviço (por CPF do Cliente)"); // Re-numerado
+            System.out.println("1. Criar Novo Agendamento");
+            System.out.println("2. Finalizar Agendamento");
+            System.out.println("3. Listar Estações de Atendimento");
+            System.out.println("4. Listar Agendamentos (Ordenado por Data)");
+            System.out.println("5. Registrar Nova Ordem de Serviço (Gera NF automática)");
+            System.out.println("6. Consultar Ordens de Serviço (por CPF do Cliente)");
             System.out.println("9. Voltar ao Menu Principal");
             System.out.print("Opção: ");
             String op = scanner.nextLine();
@@ -189,22 +240,22 @@ public class Barbearia {
             try {
                 switch (op) {
                     case "1":
-                        criarNovoAgendamento(); // ADICIONADO
+                        criarNovoAgendamento();
                         break;
                     case "2":
-                        finalizarAgendamento(); // ADICIONADO
+                        finalizarAgendamento();
                         break;
                     case "3":
-                        listarEstacoes(); // Re-numerado
+                        listarEstacoes();
                         break;
                     case "4":
-                        listarAgendamentosOrdenados(); // Re-numerado
+                        listarAgendamentosOrdenados();
                         break;
                     case "5":
-                        registrarNovaOS(); // Re-numerado
+                        registrarNovaOS();
                         break;
                     case "6":
-                        consultarOsPorCliente(); // Re-numerado
+                        consultarOsPorCliente();
                         break;
                     case "9":
                         return;
@@ -219,7 +270,7 @@ public class Barbearia {
     }
 
     /**
-     * Menu para gerenciar Vendas da Loja.
+     * Exibe o submenu "Loja e Estoque".
      */
     private static void exibirMenuLojaEEstoque() {
         while (true) {
@@ -245,6 +296,10 @@ public class Barbearia {
         }
     }
 
+    /**
+     * Exibe o submenu "Gestão de Vendas".
+     * Trata exceções de sub-métodos.
+     */
     private static void exibirMenuGestaoVendas() {
         while (true) {
             System.out.println("\n--- 3.1 Gestão de Vendas ---");
@@ -274,6 +329,10 @@ public class Barbearia {
         }
     }
 
+    /**
+     * Exibe o submenu "Gestão de Estoque".
+     * Trata exceções de sub-métodos.
+     */
     private static void exibirMenuGestaoEstoque() {
         while (true) {
             System.out.println("\n--- 3.2 Gestão de Estoque ---");
@@ -304,17 +363,20 @@ public class Barbearia {
     }
 
     /**
-     * Menu para testar funcionalidades de Debug (Contadores, etc.).
+     * Exibe o submenu "Painel Administrativo".
+     * Trata exceções de sub-métodos.
      */
     private static void exibirMenuAdmin() {
         while (true) {
-            System.out.println("\n--- 4. Painel Administrativo ---");
+            System.out.println("\n--- 4. Painel Administrativo (Financeiro/Testes) ---");
             System.out.println("1. Gerar Balanço Mensal (Receita de OS)");
-            System.out.println("2. Testar Contadores Estáticos (Serviços)");
-            System.out.println("3. Testar Contadores Estáticos (Ordens de Serviço)");
-            System.out.println("4. Ver Explicação (Vantagens/Desvantagens Contadores)");
-            System.out.println("5. Testar Comparator.sort() (Questão 16)");
-            System.out.println("6. Testar Find vs. BinarySearch (Questão 17)");
+            System.out.println("2. Consultar Notas Fiscais (por CPF do Cliente)");
+            System.out.println("--- Testes de Requisitos ---");
+            System.out.println("3. Testar Contadores Estáticos (Serviços)");
+            System.out.println("4. Testar Contadores Estáticos (Ordens de Serviço)");
+            System.out.println("5. Ver Explicação (Vantagens/Desvantagens Contadores)");
+            System.out.println("6. Testar Comparator.sort() (Questão 16)");
+            System.out.println("7. Testar Find vs. BinarySearch (Questão 17)");
             System.out.println("9. Voltar ao Menu Principal");
             System.out.print("Opção: ");
             String op = scanner.nextLine();
@@ -325,18 +387,21 @@ public class Barbearia {
                         consultarBalancoMensal();
                         break;
                     case "2":
-                        demonstrarContadoresServicos();
+                        consultarNotasFiscaisPorCpf();
                         break;
                     case "3":
-                        demonstrarContadoresOS();
+                        demonstrarContadoresServicos();
                         break;
                     case "4":
-                        explicarContadores();
+                        demonstrarContadoresOS();
                         break;
                     case "5":
-                        demonstrarQuestao16();
+                        explicarContadores();
                         break;
                     case "6":
+                        demonstrarQuestao16();
+                        break;
+                    case "7":
                         demonstrarQuestao17();
                         break;
                     case "9":
@@ -352,8 +417,10 @@ public class Barbearia {
     }
 
 
-    // --- Ações de Pessoas (Menu 1) ---
-
+    /**
+     * Ação do Menu 1: Coleta dados e cadastra um novo usuário do tipo "Cliente".
+     * @throws Exception Se o cadastro falhar (ex: CPF duplicado).
+     */
     private static void cadastrarNovoCliente() throws Exception {
         System.out.println("--- Cadastrar Novo Cliente ---");
         System.out.print("Nome: "); String nome = scanner.nextLine();
@@ -365,7 +432,10 @@ public class Barbearia {
         System.out.println("Cliente cadastrado com sucesso! ID: " + novo.getId());
     }
 
-
+    /**
+     * Ação do Menu 1: Coleta CPF e remove um usuário.
+     * @throws Exception Se a remoção falhar.
+     */
     private static void excluirCliente() throws Exception {
         System.out.println("--- Excluir Cliente ---");
         System.out.print("CPF do cliente para excluir: "); String cpf = scanner.nextLine();
@@ -373,7 +443,10 @@ public class Barbearia {
         System.out.println("Cliente removido com sucesso (se existia).");
     }
 
-
+    /**
+     * Ação do Menu 1: Coleta dados e cadastra um novo usuário do tipo "Funcionario".
+     * @throws Exception Se o cadastro falhar.
+     */
     private static void cadastrarNovoColaborador() throws Exception {
         System.out.println("--- Cadastrar Novo Colaborador ---");
         System.out.print("Nome: "); String nome = scanner.nextLine();
@@ -388,6 +461,10 @@ public class Barbearia {
         System.out.println("Colaborador cadastrado com sucesso! ID: " + novo.getId());
     }
 
+    /**
+     * Ação do Menu 1: Lista todos os usuários do tipo "Cliente", ordenados por nome.
+     * Utiliza o {@link CompareNameCliente}.
+     */
     private static void listarClientesOrdenados() {
         System.out.println("--- Clientes (Ordenados por Nome) ---");
         List<Usuarios> usuarios = usuarioRepository.listaDeUsuarios();
@@ -401,15 +478,16 @@ public class Barbearia {
         }
     }
 
-    // --- Ações de Agendamento (Menu 2) ---
-
-    // MÉTODO ADICIONADO
+    /**
+     * Ação do Menu 2: Coleta dados e cria um novo agendamento.
+     * Mostra horários disponíveis antes de solicitar a hora.
+     * @throws Exception Se o agendamento falhar (ex: horário ocupado).
+     */
     private static void criarNovoAgendamento() throws Exception {
         System.out.println("--- Criar Novo Agendamento ---");
         System.out.print("Data (dd/MM/yyyy): ");
         LocalDate data = LocalDate.parse(scanner.nextLine(), dtfData);
 
-        // Listar horários disponíveis
         List<LocalTime> horarios = agendamentoServices.buscarHorariosDisponiveis(data);
         System.out.println("Horários disponíveis em " + data.format(dtfData) + ":");
         if (horarios.isEmpty()) {
@@ -436,7 +514,11 @@ public class Barbearia {
         System.out.println("Agendamento salvo com sucesso! ID: " + novo.getId());
     }
 
-    // MÉTODO ADICIONADO
+    /**
+     * Ação do Menu 2: Coleta o ID de um agendamento e o marca como "Finalizado".
+     * Libera a estação de atendimento associada.
+     * @throws Exception Se o agendamento não for encontrado.
+     */
     private static void finalizarAgendamento() throws Exception {
         System.out.println("--- Finalizar Agendamento ---");
         System.out.print("Digite o ID do agendamento a ser finalizado: ");
@@ -445,7 +527,9 @@ public class Barbearia {
         System.out.println("Agendamento ID " + id + " finalizado. Estação liberada.");
     }
 
-
+    /**
+     * Ação do Menu 2: Lista todas as estações de atendimento e seus status.
+     */
     private static void listarEstacoes() {
         System.out.println("--- Estações de Atendimento (Array Fixo) ---");
         List<Estacao> estacoes = estacaoRepository.listarTodas();
@@ -455,7 +539,10 @@ public class Barbearia {
         System.out.println("Total de estações fixas: " + estacoes.size());
     }
 
-
+    /**
+     * Ação do Menu 2: Lista todos os agendamentos, ordenados por data (proximidade).
+     * Utiliza o {@link ComparateDateAgendamento}.
+     */
     private static void listarAgendamentosOrdenados() {
         System.out.println("--- Agendamentos (Ordenados por Data) ---");
         List<Agendamento> agendamentos = agendamentoRepository.listaDeAgendamentos();
@@ -470,6 +557,11 @@ public class Barbearia {
         }
     }
 
+    /**
+     * Ação do Menu 2: Coleta dados e registra uma nova Ordem de Serviço.
+     * A geração da Nota Fiscal é disparada automaticamente.
+     * @throws Exception Se o registro da OS falhar.
+     */
     private static void registrarNovaOS() throws Exception {
         System.out.println("--- Registrar Nova Ordem de Serviço ---");
         System.out.print("CPF do Cliente: "); String cpfCliente = scanner.nextLine();
@@ -480,9 +572,14 @@ public class Barbearia {
         System.out.print("Valor (ex: 50.0): "); double valor = Double.parseDouble(scanner.nextLine());
 
         osRoles.registrarOrdensDeServico(cpfCliente, cpfFunc, diag, valor, servId, data);
-        System.out.println("Ordem de Serviço registrada com sucesso.");
+
+        System.out.println("Ordem de Serviço registrada e Nota Fiscal gerada com sucesso.");
     }
 
+    /**
+     * Ação do Menu 2: Coleta um CPF e busca todas as Ordens de Serviço associadas.
+     * @throws Exception Se a busca falhar.
+     */
     private static void consultarOsPorCliente() throws Exception {
         System.out.println("--- Consultar Ordens de Serviço por Cliente ---");
         System.out.print("Digite o CPF do cliente (só números): ");
@@ -500,8 +597,10 @@ public class Barbearia {
         }
     }
 
-    // --- Ações de Loja (Menu 3) ---
-
+    /**
+     * Ação do Menu 3: Coleta dados e registra uma nova venda de produto.
+     * @throws Exception Se a venda falhar (ex: usuário não encontrado).
+     */
     private static void registrarVendaProduto() throws Exception {
         System.out.println("--- Registrar Venda de Produto ---");
         System.out.print("Nome do Produto: "); String nomeProd = scanner.nextLine();
@@ -513,6 +612,9 @@ public class Barbearia {
         System.out.println("Venda registrada com sucesso.");
     }
 
+    /**
+     * Ação do Menu 3: Coleta o nome de um produto e busca o primeiro registro de venda.
+     */
     private static void emitirExtratoVenda() {
         System.out.println("--- Emitir Extrato de Venda ---");
         System.out.print("Nome do produto vendido: ");
@@ -526,6 +628,10 @@ public class Barbearia {
         }
     }
 
+    /**
+     * Ação do Menu 3: Coleta dados e cadastra um novo produto no estoque.
+     * @throws Exception Se a validação do produto falhar.
+     */
     private static void cadastrarProdutoNoEstoque() throws Exception {
         System.out.println("--- Cadastrar Produto no Estoque ---");
         System.out.print("Nome do Produto: "); String nome = scanner.nextLine();
@@ -537,6 +643,10 @@ public class Barbearia {
         System.out.println("Produto cadastrado no estoque.");
     }
 
+    /**
+     * Ação do Menu 3: Lista todos os produtos cadastrados no estoque.
+     * @throws Exception Se não houver produtos.
+     */
     private static void listarProdutos() throws Exception {
         System.out.println("--- Listar Todos os Produtos ---");
         List<Produtos> produtos = produtosService.listarProdutos();
@@ -545,6 +655,10 @@ public class Barbearia {
         }
     }
 
+    /**
+     * Ação do Menu 3: Coleta um nome e busca um produto no estoque.
+     * @throws Exception Se o produto não for encontrado.
+     */
     private static void buscarProdutoPorNome() throws Exception {
         System.out.println("--- Buscar Produto por Nome ---");
         System.out.print("Nome do Produto: "); String nome = scanner.nextLine();
@@ -552,6 +666,10 @@ public class Barbearia {
         System.out.println("Produto encontrado: " + p.toString());
     }
 
+    /**
+     * Ação do Menu 3: Coleta nome e quantidade para adicionar ao estoque.
+     * @throws Exception Se a validação falhar.
+     */
     private static void adicionarProdutoNoEstoque() throws Exception {
         System.out.println("--- Adicionar Quantidade ao Estoque ---");
         System.out.print("Nome do Produto: "); String nome = scanner.nextLine();
@@ -560,6 +678,10 @@ public class Barbearia {
         System.out.println("Estoque atualizado.");
     }
 
+    /**
+     * Ação do Menu 3: Coleta nome e quantidade para remover do estoque.
+     * @throws Exception Se a validação falhar.
+     */
     private static void removerProdutoDoEstoque() throws Exception {
         System.out.println("--- Remover Quantidade do Estoque ---");
         System.out.print("Nome do Produto: "); String nome = scanner.nextLine();
@@ -568,8 +690,9 @@ public class Barbearia {
         System.out.println("Estoque atualizado.");
     }
 
-    // --- Ações de Admin (Menu 4) ---
-
+    /**
+     * Ação do Menu 4: Coleta mês/ano e calcula o balanço de receita das Ordens de Serviço.
+     */
     private static void consultarBalancoMensal() {
         System.out.println("--- Consultar Balanço Mensal (Receita de OS) ---");
         System.out.print("Digite o Mês (ex: 11): ");
@@ -584,6 +707,33 @@ public class Barbearia {
         System.out.println("----------------------------------------");
     }
 
+    /**
+     * Ação do Menu 4: Coleta um CPF e busca todas as Notas Fiscais associadas.
+     * @throws Exception Se a busca falhar (ex: CPF inválido).
+     */
+    private static void consultarNotasFiscaisPorCpf() throws Exception {
+        System.out.println("--- Consultar Notas Fiscais por Cliente ---");
+        System.out.print("Digite o CPF do cliente (só números): ");
+        String cpf = scanner.nextLine();
+
+        System.out.println("Buscando notas fiscais...");
+        List<NotaFiscalModel> notas = notaFiscalService.buscarNotasPorCpf(cpf);
+
+        if (notas.isEmpty()) {
+            System.out.println("Nenhuma nota fiscal encontrada para este CPF.");
+        } else {
+            System.out.println("Encontradas " + notas.size() + " nota(s):");
+            for(NotaFiscalModel nota : notas) {
+                System.out.println(" - " + nota.toString());
+            }
+        }
+    }
+
+    /**
+     * Ação do Menu 4: Demonstração dos contadores estáticos (Requisitos 12, 13)
+     * na classe {@link Servicos}.
+     * @throws Exception Se a criação/remoção do serviço de teste falhar.
+     */
     private static void demonstrarContadoresServicos() throws Exception {
         System.out.println("--- Teste Contadores Estáticos (Serviços) ---");
         System.out.println("Contagem ANTES de criar novo serviço:");
@@ -606,6 +756,11 @@ public class Barbearia {
         } catch(Exception e) {}
     }
 
+    /**
+     * Ação do Menu 4: Demonstração do contador estático (Requisito 15)
+     * na classe {@link OrdensDeServicoModel}.
+     * @throws Exception (Propagado de registrarNovaOS, embora este método não trate).
+     */
     private static void demonstrarContadoresOS() throws Exception {
         System.out.println("--- Teste Contador Estático (Ordens de Serviço) ---");
         System.out.println("Contagem ANTES de criar nova OS:");
@@ -618,6 +773,10 @@ public class Barbearia {
         System.out.println("Instâncias: " + OrdensDeServicoModel.pegarContadorInstancias());
     }
 
+    /**
+     * Ação do Menu 4: Imprime uma explicação sobre os modificadores de acesso
+     * 'private static' vs 'protected static' (Requisitos 12, 13).
+     */
     private static void explicarContadores() {
         System.out.println("--- Explicação (Vantagens/Desvantagens Contadores) ---");
         System.out.println("Estratégia 1: 'private static' com Métodos get/set (Req 12)");
@@ -629,8 +788,10 @@ public class Barbearia {
         System.out.println("  - Desvantagem: Quebra do Encapsulamento. Qualquer classe no pacote ou subclasse pode modificar o contador (ex: Servicos.contador = 0), causando inconsistência.");
     }
 
-    // --- MÉTODOS ADICIONADOS (Q16 E Q17) ---
-
+    /**
+     * Ação do Menu 4: Demonstração do {@link Comparator} (Questão 16).
+     * Ordena e exibe a lista de usuários de duas formas: ascendente e descendente.
+     */
     private static void demonstrarQuestao16() {
         System.out.println("==== Questão 16: Testando Comparator.sort() ====");
 
@@ -663,6 +824,15 @@ public class Barbearia {
         }
     }
 
+    /**
+     * Método de busca (Questão 17) que usa {@link Iterator} e {@link Comparator}.
+     * Realiza uma busca linear O(n).
+     *
+     * @param lista A lista de usuários para pesquisar.
+     * @param chaveDeBusca Um objeto {@link Usuarios} com o nome a ser procurado.
+     * @param comparator O {@link CompareNameCliente} para fazer a comparação.
+     * @return O usuário encontrado, ou {@code null} se não for encontrado.
+     */
     public static Usuarios findUsuarioComIterator(List<Usuarios> lista, Usuarios chaveDeBusca, Comparator<Usuarios> comparator) {
         Iterator<Usuarios> iterator = lista.iterator();
         while (iterator.hasNext()) {
@@ -674,6 +844,14 @@ public class Barbearia {
         return null;
     }
 
+    /**
+     * Ação do Menu 4: Demonstração da Questão 17.
+     * Compara o método {@link #findUsuarioComIterator} (busca linear)
+     * com o {@link Collections#binarySearch(List, Object, Comparator)} (busca binária).
+     * <p>
+     * Cria e remove um usuário de teste para garantir que a busca funcione.
+     * </p>
+     */
     private static void demonstrarQuestao17() {
         System.out.println("\n==== Questão 17: Testando Find (Iterator) vs. BinarySearch ====");
 
@@ -737,13 +915,19 @@ public class Barbearia {
     }
 
 
-    // --- MÉTODOS UTILITÁRIOS ---
-
+    /**
+     * Método utilitário para pausar a execução do console
+     * e aguardar o usuário pressionar ENTER.
+     */
     private static void pausar() {
         System.out.println("\n(Pressione ENTER para continuar...)");
         scanner.nextLine();
     }
 
+    /**
+     * Método utilitário para persistir os dados de TODOS os repositórios.
+     * Chama o método {@code salvarNoJson()} de cada repositório.
+     */
     private static void salvarTudo() {
         System.out.println("Salvando todos os dados nos arquivos JSON...");
         try {
@@ -753,9 +937,13 @@ public class Barbearia {
             agendamentoRepository.salvarNoJson();
             vendasRepository.salvarNoJson();
             produtosRepository.salvarNoJson();
+            notaFiscalRepository.salvarNoJson(); // ADICIONADO
             System.out.println("Dados salvos com sucesso.");
         } catch (Exception e) {
             System.err.println("!!! ERRO AO SALVAR DADOS: " + e.getMessage());
         }
+    }
+
+    public Barbearia(){
     }
 }

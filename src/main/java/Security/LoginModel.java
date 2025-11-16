@@ -31,10 +31,18 @@ public class LoginModel {
 
     // --- Getters e Setters ---
 
+    /**
+     * Retorna o nome de usuário.
+     * @return O nome de usuário para login.
+     */
     public String getUsuario() {
         return usuario;
     }
 
+    /**
+     * Define o nome de usuário.
+     * @param usuario O novo nome de usuário.
+     */
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
@@ -54,29 +62,62 @@ public class LoginModel {
         this.id = id;
     }
 
+    /**
+     * Define o ID único deste registro de login.
+     * @param id O novo ID.
+     */
     public void setId(int id){
         this.id = id;
     }
+
+    /**
+     * Retorna o ID único deste registro de login.
+     * @return O ID do registro.
+     */
     public int getId(){
         return id;
     }
 
+    /**
+     * Retorna o CPF associado a este login.
+     * @return O CPF do usuário.
+     */
     public String getCpf() {
         return cpf;
     }
 
+    /**
+     * Define o CPF associado a este login.
+     * @param cpf O novo CPF do usuário.
+     */
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
+    /**
+     * Retorna a senha (hash) associada a este login.
+     * @return A senha (hash).
+     */
     public String getSenhahash() {
         return senhahash;
     }
 
+    /**
+     * Define a senha (hash) para este login.
+     * @param senhahash A nova senha (hash).
+     */
     public void setSenhahash(String senhahash) {
         this.senhahash = senhahash;
     }
 
+    /**
+     * Retorna uma representação textual do objeto LoginModel.
+     * <p>
+     * Importante: A senha (senhahash) é omitida da saída
+     * por razões de segurança, exibindo "[PROTEGIDO]".
+     * </p>
+     * @return Uma String formatada com os dados do login (sem senha).
+     */
     @Override
     public String toString() {
         return "LoginModel{" +

@@ -62,4 +62,11 @@ public class ComparateDateAgendamento implements Comparator<Agendamento> {
 
         return Long.compare(distancia1, distancia2);
     }
+
+    /**
+     * Construtor padrão
+     */
+    public ComparateDateAgendamento(){
+
+    }
 }

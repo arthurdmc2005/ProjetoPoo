@@ -61,4 +61,11 @@ public class ComparateFilaDeEspera implements Comparator<FilaEspera> {
         }
 
     }
+
+    /**
+     * Construtor padrão
+     */
+    public ComparateFilaDeEspera(){
+
+    }
 }

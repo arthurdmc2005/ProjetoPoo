@@ -72,4 +72,11 @@ public class GerenciadorDeEstacoes {
             }
         }
     }
+
+    /**
+     * Construtor padrão
+     */
+    public GerenciadorDeEstacoes(){
+
+    }
 }

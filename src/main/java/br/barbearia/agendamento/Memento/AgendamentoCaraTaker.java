@@ -17,6 +17,13 @@ public class AgendamentoCaraTaker {
     private AgendamentoMemento ultimoEstado;
 
     /**
+     * Construtor padrão da classe AgendamentoCaraTaker.
+     * Inicializa o zelador sem nenhum estado salvo.
+     */
+    public AgendamentoCaraTaker() {
+    }
+
+    /**
      * Salva um novo estado (Memento) no Zelador.
      * Qualquer estado anterior é sobrescrito.
      *

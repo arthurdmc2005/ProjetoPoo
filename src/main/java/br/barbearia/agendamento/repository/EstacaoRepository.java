@@ -93,4 +93,11 @@ public class EstacaoRepository {
         System.out.println("LOG [Repository]: Estação " + numeroEstacao + " liberada.");
         return true;
     }
+
+    /**
+     * Construtor padrão
+     */
+    public EstacaoRepository(){
+
+    }
 }

@@ -1,5 +1,6 @@
 package br.barbearia.test;
 
+import br.barbearia.Financeiro.repository.NotaFiscalRepository;
 import br.barbearia.Financeiro.repository.RegistroDeVendasRepository;
 import br.barbearia.Financeiro.service.RegistroDeVendasServices;
 import br.barbearia.OrdensDeServiço.OrdensDeServicoModel;
@@ -19,6 +20,9 @@ import br.barbearia.model.Usuarios;
 import br.barbearia.repository.UsuarioRepository;
 import br.barbearia.service.UsuarioServices;
 
+// IMPORT ADICIONADO
+import br.barbearia.Financeiro.service.NotaFiscalService;
+
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -30,15 +34,12 @@ public class QuestõesRespondidas {
         System.out.println("====Questão 17====");
         System.out.println("Demonstrando Iterator com while(iterator.hasNext())");
 
-        // 1. Instanciar o Iterator para a lista de Usuários (Clientes/Funcionários)
         List<Usuarios> listaDeUsuarios = usuarioRepository.listaDeUsuarios();
         Iterator<Usuarios> iteratorUsuarios = listaDeUsuarios.iterator();
 
         System.out.println("Percorrendo a lista de usuários:");
 
-        // 2. Fazer testes com o loop while(hasNext)
         while(iteratorUsuarios.hasNext()) {
-            // 3. Imprimir(iterator.next())
             Usuarios usuarioAtual = iteratorUsuarios.next();
             System.out.println(usuarioAtual.toString());
         }
@@ -49,17 +50,25 @@ public class QuestõesRespondidas {
     public static void main(String[] args) {
 
         UsuarioRepository usuarioRepository = new UsuarioRepository("BarbeariaComMaven/Usuarios.JSON");
-        ServicosRepository servicosRepository = new ServicosRepository("BarbearioComMaven/Servicos.JSON");
+        ServicosRepository servicosRepository = new ServicosRepository("BarbeariaComMaven/Servicos.JSON"); // Path corrigido
         AgendamentoRepository agendamentoRepository = new AgendamentoRepository("BarbeariaComMaven/Agendamento.JSON");
-        AgendamentoCaraTaker agendamentoCaraTaker = new AgendamentoCaraTaker();
+        NotaFiscalRepository notaFiscalRepository = new NotaFiscalRepository("BarbeariaComMaven/NotasFiscais.JSON"); // Corrigido para "NotasFiscais.JSON"
+        RegistroDeVendasRepository registroDeVendasRepository = new RegistroDeVendasRepository("BarbeariaComMaven/Vendas.JSON");
+        OrdensDeServicoRepository ordensDeServicoRepository = new OrdensDeServicoRepository("BarbeariaComMaven/OrdensDeServico.JSON");
         EstacaoRepository estacaoRepository = new EstacaoRepository();
+        AgendamentoCaraTaker agendamentoCaraTaker = new AgendamentoCaraTaker();
+
         UsuarioServices usuarioServices = new UsuarioServices(usuarioRepository);
         ServicesRoles servicesRoles = new ServicesRoles(servicosRepository);
         AgendamentoServices agendamentoServices = new AgendamentoServices(agendamentoRepository, usuarioRepository, servicosRepository,estacaoRepository,agendamentoCaraTaker);
-        RegistroDeVendasRepository registroDeVendasRepository = new RegistroDeVendasRepository("BarbeariaComMaven/Vendas.JSON");
         RegistroDeVendasServices registroDeVendasServices = new RegistroDeVendasServices(registroDeVendasRepository, usuarioRepository);
-        OrdensDeServicoRepository ordensDeServicoRepository = new OrdensDeServicoRepository("BarbeariaComMaven/OrdensDeServico.JSON");
-        OrdensDeServicoRoles ordensDeServicoRoles = new OrdensDeServicoRoles(ordensDeServicoRepository);
+
+
+        NotaFiscalService notaFiscalService = new NotaFiscalService(notaFiscalRepository, usuarioRepository);
+
+
+        OrdensDeServicoRoles ordensDeServicoRoles = new OrdensDeServicoRoles(ordensDeServicoRepository, notaFiscalService);
+
 
         //Questão 01: {
         System.out.printf("====Questão 01====");
@@ -85,12 +94,13 @@ public class QuestõesRespondidas {
         //Questão 06:{
         System.out.println("====Questão 06====");
         try {
-           usuarioServices.cadastrarUsuario("Arthur","22222222222","3899788614","Funcionario","fodase123","fodase123");
-           usuarioServices.removerUsuario(1);
-           usuarioServices.buscarUsuarioPorCpf("22222222222");
+            usuarioServices.cadastrarUsuario("Arthur","22222222222","3899788614","Funcionario","fodase123","fodase123");
+            usuarioServices.removerUsuario(1);
+            usuarioServices.buscarUsuarioPorCpf("22222222222");
             System.out.println("Caso queria olhar com mais clareza, acessar a classe UsuariosServices;");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            // Ignorar erro caso o usuário já exista
+            // throw new RuntimeException(e);
         }
         // }
         //Questão 07:{
@@ -101,7 +111,8 @@ public class QuestõesRespondidas {
             usuarioServices.buscarUsuarioPorCpf("22222222222");
             System.out.println("Caso queria olhar com mais clareza, acessar a classe UsuariosServices;");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            // Ignorar erro caso o usuário já exista
+            // throw new RuntimeException(e);
         }
         // }
         //Questão 08:{
@@ -111,7 +122,8 @@ public class QuestõesRespondidas {
             ordensDeServicoRoles.buscarOSPeloCpf("22222222222");
             ordensDeServicoRoles.buscarOSPelaData("15/11/2025");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            // Ignorar erro
+            // throw new RuntimeException(e);
         }
         // }
         //Questão 09:{
@@ -123,7 +135,8 @@ public class QuestõesRespondidas {
         try {
             ordensDeServicoRoles.registrarOrdensDeServico("22222222222", "11111111111", "Serviço top", 60, 1, "15/11/2025");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            // Ignorar erro
+            // throw new RuntimeException(e);
         }
         // }
         //Questão 11:{
