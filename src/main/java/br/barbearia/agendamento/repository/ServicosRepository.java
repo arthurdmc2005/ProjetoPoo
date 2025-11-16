@@ -112,7 +112,6 @@ public class ServicosRepository {
     public void removerServico(int idParaRemover){
         boolean foiRemovido = listaDeServicos.removeIf(servicos -> servicos.getId()==idParaRemover);
         if(foiRemovido){
-            // Nenhuma ação necessária no 'if'
         }
     }
 

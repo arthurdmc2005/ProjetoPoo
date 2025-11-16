@@ -42,29 +42,24 @@ public class ComparateDateAgendamento implements Comparator<Agendamento> {
         LocalDate data1 = agendamento1.getData();
         LocalDate data2 = agendamento2.getData();
 
-        // --- Tratamento de Nulos ---
         if(data1 == null && data2 == null){
-            return 0; // Ambos são nulos, são iguais
+            return 0;
         }
         if(data1 == null){
-            return 1; // Nulos são considerados "maiores" (vão para o fim)
+            return 1;
         }
         if(data2 == null){
-            return -1; // Nulos são considerados "maiores" (vão para o fim)
+            return -1;
         }
 
-        // --- Lógica de Comparação ---
 
-        // ChronoUnit é uma calculadora que eu usei para ver quantos dias existem
-        // de diferença entre o dia de hoje e a data do agendamento
         long diasParaData1 = ChronoUnit.DAYS.between(hoje, data1);
         long diasParaData2 = ChronoUnit.DAYS.between(hoje, data2);
 
-        // Compara a distância absoluta (proximidade)
+
         long distancia1 = Math.abs(diasParaData1);
         long distancia2 = Math.abs(diasParaData2);
 
-        // Retorna a comparação das distâncias
         return Long.compare(distancia1, distancia2);
     }
 }

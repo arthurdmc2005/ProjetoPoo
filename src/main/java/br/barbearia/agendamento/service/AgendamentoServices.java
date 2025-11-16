@@ -89,17 +89,17 @@ public class AgendamentoServices {
 
 
         List<LocalTime> agendaCompleta = new ArrayList<>();
-        agendaCompleta.add(LocalTime.of(8, 0));  // 08:00
-        agendaCompleta.add(LocalTime.of(9, 0));  // 09:00
-        agendaCompleta.add(LocalTime.of(10, 0)); // 10:00
-        agendaCompleta.add(LocalTime.of(11, 0)); // 11:00
-        //Almoço
-        agendaCompleta.add(LocalTime.of(13, 0)); // 13:00
-        agendaCompleta.add(LocalTime.of(14, 0)); // 14:00
-        agendaCompleta.add(LocalTime.of(15, 0)); // 15:00
-        agendaCompleta.add(LocalTime.of(16, 0)); // 16:00
-        agendaCompleta.add(LocalTime.of(17, 0)); // 17:00
-        agendaCompleta.add(LocalTime.of(18,0));  // 18:00
+        agendaCompleta.add(LocalTime.of(8, 0));
+        agendaCompleta.add(LocalTime.of(9, 0));
+        agendaCompleta.add(LocalTime.of(10, 0));
+        agendaCompleta.add(LocalTime.of(11, 0));
+        //12:00 horário utilizado pra almoço ( simulação - gustavo)
+        agendaCompleta.add(LocalTime.of(13, 0));
+        agendaCompleta.add(LocalTime.of(14, 0));
+        agendaCompleta.add(LocalTime.of(15, 0));
+        agendaCompleta.add(LocalTime.of(16, 0));
+        agendaCompleta.add(LocalTime.of(17, 0));
+        agendaCompleta.add(LocalTime.of(18,0));
 
         System.out.println("LOG [Service]: Template da agenda criado com " + agendaCompleta.size() + " horários.");
 
@@ -211,16 +211,12 @@ public class AgendamentoServices {
         if(agendamento == null){
             throw new Exception("Agendamento não encontrado");
         }
-        // 1. Salva o estado (status e estação) antes da mudança
         caraTaker.salvar(agendamento.salvarEstado());
 
-        // 2. Altera o estado
         agendamento.setStatus("Finalizado");
 
-        // 3. Persiste a mudança
         agendamentoRepository.atualizarAgendamento(agendamento);
 
-        // 4. Libera o recurso
         boolean liberou = estacaoRepository.liberarEstacao(agendamento.getEstacaoNumero());
         if(liberou){
             System.out.printf("Estação liberada");
@@ -249,14 +245,12 @@ public class AgendamentoServices {
         Agendamento agendamento = agendamentoRepository.buscarPorId(id);
         if(agendamento == null) throw new Exception("Agendamento não encontrado");
 
-        // 2. Pede o Memento (estado salvo)
         AgendamentoMemento anterior = caraTaker.desfazer();
         if(anterior == null)throw new Exception("Nenhum estado anterior salvo");
 
-        // 3. Restaura o estado
         agendamento.restaurarEstado(anterior);
 
-        // 4. Persiste a mudança
+
         agendamentoRepository.atualizarAgendamento(agendamento);
         System.out.println("Estado restaurado");
     }

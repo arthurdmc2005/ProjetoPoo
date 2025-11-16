@@ -29,7 +29,6 @@ public class Servicos {
     /** O identificador único do serviço. */
     private int id;
 
-    // --- Início: Requisitos 11, 12, 13 (Contadores Estáticos) ---
 
     /**
      * (Req 12) Contador estático privado.
@@ -72,8 +71,6 @@ public class Servicos {
     public static int pegarContadorInstanciasProtegido(){
         return contadorInstanciasProtegido;
     }
-
-    // --- Fim: Requisitos 11, 12, 13 ---
 
 
     /**

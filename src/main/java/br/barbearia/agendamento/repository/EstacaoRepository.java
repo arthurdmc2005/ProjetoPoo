@@ -22,9 +22,9 @@ public class EstacaoRepository {
      * as informações das 3 estações de atendimento.
      */
     private Estacao[] estacoes = {
-            new Estacao(1, true),   // Estação 1 com lavagem e secador
-            new Estacao(2, false),  // Estação 2 comum
-            new Estacao(3, false)   // Estação 3 comum
+            new Estacao(1, true),   // Estação 1 com lavagem
+            new Estacao(2, false),
+            new Estacao(3, false)
     };
 
     /**

@@ -30,10 +30,9 @@ public class GerenciadorDeEstacoes {
      * Popula o array {@code estacoes} com as 3 estações padrão.
      */
     static {
-        // Inicializa as 3 estações
-        estacoes[0] = new Estacao(1, true);   // possui lavagem e secador
-        estacoes[1] = new Estacao(2, false);  // comum
-        estacoes[2] = new Estacao(3, false);  // comum
+        estacoes[0] = new Estacao(1, true);   //Estação que tem lavagem
+        estacoes[1] = new Estacao(2, false);
+        estacoes[2] = new Estacao(3, false);
     }
 
     /**

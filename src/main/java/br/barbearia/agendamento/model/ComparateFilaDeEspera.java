@@ -41,25 +41,23 @@ public class ComparateFilaDeEspera implements Comparator<FilaEspera> {
         LocalDateTime dataEntrada1 = espera1.getDataEntradafila();
         LocalDateTime dataEntrada2 = espera2.getDataEntradafila();
 
-        // --- Tratamento de Nulos ---
         if(dataEntrada1==null && dataEntrada2 == null){
-            return 0; // Ambos nulos, são iguais
+            return 0;
         }
         if(dataEntrada1 == null){
-            return 1; // Nulos são "maiores" (vão para o fim da fila)
+            return 1;
         }
         if(dataEntrada2 == null){
-            return -1; // Nulos são "maiores" (vão para o fim da fila)
+            return -1;
         }
 
-        // --- Comparação Cronológica ---
         if(dataEntrada1.isBefore(dataEntrada2)){
-            return -1; // espera1 veio antes
+            return -1;
         } else if (dataEntrada1.isAfter(dataEntrada2)) {
-            return 1; // espera1 veio depois
+            return 1;
         }
         else{
-            return 0; // São iguais
+            return 0;
         }
 
     }
