@@ -10,9 +10,14 @@ import java.util.List;
 /**
  * Classe responsável por gerenciar operações relacionadas aos logins do sistema,
  * realizando o carregamento, registro e persistência dos dados em um arquivo JSON.
- *
+ * <p>
  * A classe utiliza {@link GerenciadorJSON} para manipular a leitura e escrita
  * dos objetos do tipo {@link LoginModel}.
+ * </p>
+ *
+ * @see LoginModel
+ * @see GerenciadorJSON
+ * @see LoginServices
  */
 public class LoginRepository {
 
@@ -24,9 +29,13 @@ public class LoginRepository {
 
     /**
      * Construtor da classe LoginRepository.
-     * Inicializa o gerenciador JSON e carrega a lista de logins existente no arquivo.
+     * <p>
+     * Inicializa o gerenciador JSON com o caminho do arquivo e
+     * carrega a lista de logins existente no arquivo para a memória.
+     * </p>
      *
-     * @param caminhoDoArquivo caminho do arquivo JSON onde os logins serão armazenados
+     * @param caminhoDoArquivo caminho do arquivo JSON onde os logins
+     * serão armazenados (ex: "BarbeariaComMaven/Login.JSON").
      */
     public LoginRepository(String caminhoDoArquivo) {
         this.gerenciadorJSON = new GerenciadorJSON<>(caminhoDoArquivo, new TypeReference<List<LoginModel>>() {
@@ -36,7 +45,7 @@ public class LoginRepository {
     }
 
     /**
-     * Salva a lista de logins atual no arquivo JSON.
+     * Salva a lista de logins atual (em memória) no arquivo JSON.
      */
     public void salvarNoJson() {
         gerenciadorJSON.salvar((this.listaDeLogins));
@@ -44,9 +53,12 @@ public class LoginRepository {
 
     /**
      * Gera um novo ID incremental para um login.
-     * O ID é calculado encontrando o maior ID existente na lista e adicionando 1.
+     * <p>
+     * O ID é calculado encontrando o maior ID existente na lista
+     * e adicionando 1.
+     * </p>
      *
-     * @return próximo ID disponível
+     * @return próximo ID disponível.
      */
     private int proximoId() {
         int maxId = 0;
@@ -61,10 +73,14 @@ public class LoginRepository {
 
     /**
      * Registra um novo login no sistema.
-     * Se o login ainda não possuir ID (ou seja, ID == 0), um novo ID é atribuído.
-     * Em seguida, o login é adicionado à lista e salvo no arquivo JSON.
+     * <p>
+     * Se o login ainda não possuir ID (ou seja, ID == 0), um novo
+     * ID é atribuído.
+     * Em seguida, o login é adicionado à lista e salvo no arquivo JSON
+     * (chamando {@link #salvarNoJson()}).
+     * </p>
      *
-     * @param novoLogin novo login a ser registrado
+     * @param novoLogin novo login a ser registrado.
      */
     public void registrarLogin(LoginModel novoLogin) {
         if (novoLogin.getId() == 0) {
@@ -76,8 +92,12 @@ public class LoginRepository {
 
     /**
      * Retorna uma cópia da lista de logins cadastrados.
+     * <p>
+     * Retorna um {@code new ArrayList} para evitar que modificações
+     * externas afetem a lista interna do repositório.
+     * </p>
      *
-     * @return lista de {@link LoginModel}
+     * @return lista de {@link LoginModel}.
      */
     public List<LoginModel> buscarPelosLogins() {
         return new ArrayList<>(this.listaDeLogins);

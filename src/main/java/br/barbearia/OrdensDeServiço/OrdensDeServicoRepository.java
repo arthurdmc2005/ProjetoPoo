@@ -152,4 +152,13 @@ public class OrdensDeServicoRepository {
         return ordensDeServicoLista.size();
     }
 
+    /**
+     * Retorna uma referência direta à lista completa de Ordens de Serviço.
+     *
+     * @return A {@link List} de {@link OrdensDeServicoModel}.
+     */
+    public List<OrdensDeServicoModel> listarTodasOrdens() {
+        return this.ordensDeServicoLista;
+    }
+
 }
