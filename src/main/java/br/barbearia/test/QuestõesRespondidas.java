@@ -8,11 +8,15 @@ import br.barbearia.agendamento.repository.EstacaoRepository;
 import br.barbearia.agendamento.repository.ServicosRepository;
 import br.barbearia.agendamento.service.AgendamentoServices;
 import br.barbearia.agendamento.service.ServicesRoles;
+import br.barbearia.model.CompareNameCliente;
 import br.barbearia.model.Usuarios;
 import br.barbearia.repository.UsuarioRepository;
 import br.barbearia.service.UsuarioServices;
 
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 public class QuestõesRespondidas {
 
@@ -92,6 +96,20 @@ public class QuestõesRespondidas {
         //Questão 11:{
         System.out.println("====Questão 11====");
         System.out.println("Precisar fazer!");
+        //try{
+        // List<Usuarios> listaDeUsuarios = usuarioRepository.listaDeUsuarios();
+
+        //Comparator<Usuarios> ordenacaoPorNome = new CompareNameCliente();
+
+        //listaDeUsuarios.sort(ordenacaoPorNome);
+        //System.out.println(listaDeUsuarios);
+
+
+        //} catch (Exception e) {
+        //throw new RuntimeException(e);
+        //}
+
+        //}
         // }
         //Questão 12:{
         System.out.println("====Questão 12====");
@@ -115,7 +133,12 @@ public class QuestõesRespondidas {
         // }
         //Questão 17:{
         System.out.println("====Questão 17====");
-        System.out.println("Precisa fazer");
+        System.out.println("Iterator( while/hashNext/next");
+
+        //Iterator<Usuarios> iteratorUsuarios = usuarioRepository.listaDeUsuarios().iterator();
+        //while (IteratorUsuarios.hasNext()){
+            //Usuarios usuarioAtual= iteratorUsuarios.next();
+        //}
         // }
         //Questão 18:{
         System.out.println("====Questão 18====");
