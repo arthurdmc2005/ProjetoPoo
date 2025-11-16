@@ -108,7 +108,6 @@ public class RegistroDeVendasRepository {
                     System.out.println("Quantidade insuficiente");
                     return null;
                 }
-                // Abate do estoque
                 double novaQuantidade = produtos.getQuantidade() - quantidadeParaRemover;
                 produtos.setQuantidade(novaQuantidade);
                 System.out.println("Venda efetuada");
@@ -118,7 +117,7 @@ public class RegistroDeVendasRepository {
             }
         }
 
-        return null; // Produto não encontrado
+        return null;
     }
 
     /**

@@ -54,7 +54,7 @@ public class Funcionario extends Pessoa {
      * superchamada específica, mas poderia ser, ex: super(nome, cpf, telefone)).
      */
     public Funcionario(String nome, String cpf, int id, String cargo, double salario, String telefone) {
-        super(nome, cpf); // Chama o construtor Pessoa(nome, cpf)
+        super(nome, cpf);
         this.id = id;
         this.cargo = cargo;
         this.salario = salario;
@@ -70,7 +70,7 @@ public class Funcionario extends Pessoa {
      * @param salario O salário do funcionário.
      */
     public Funcionario(String nome, String cpf, String cargo, double salario){
-        super(nome,cpf); // Chama o construtor Pessoa(nome, cpf)
+        super(nome,cpf);
         this.cargo = cargo;
         this.salario = salario;
     }

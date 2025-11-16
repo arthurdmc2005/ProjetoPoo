@@ -648,7 +648,6 @@ public class Barbearia {
 
         Comparator<Usuarios> porNome = new CompareNameCliente();
 
-        // --- Setup: Adicionar um usuário de teste para garantir que a busca funcione ---
         Usuarios chaveBusca = new Usuarios();
         chaveBusca.setNome("UsuarioDeTesteQ17");
         chaveBusca.setCpf("12345678917"); // CPF único

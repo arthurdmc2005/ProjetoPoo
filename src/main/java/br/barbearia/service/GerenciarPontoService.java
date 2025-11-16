@@ -68,20 +68,17 @@ public class GerenciarPontoService {
             throw new Exception("O tipo de ponto é obrigatório");
         }
 
-        // Valida se o funcionário existe
         Usuarios funcionario = usuarioRepository.buscarPorId(funcionarioId);
         if(funcionario == null){
             throw new Exception("Funcionario não encontrado");
         }
         System.out.println("Monta o objeto ( log pra visualização )");
 
-        // Cria a nova entidade de Ponto
         RegistroPonto novoPonto = new RegistroPonto();
         novoPonto.setFuncionarioId(funcionarioId);
-        novoPonto.setDataHora(LocalDateTime.now()); // Pega a hora atual
+        novoPonto.setDataHora(LocalDateTime.now());
         novoPonto.setTipo(tipo.toUpperCase());
 
-        // Salva no repositório
         gerenciarPontoRepository.adicionarPonto(novoPonto);
 
         return novoPonto;

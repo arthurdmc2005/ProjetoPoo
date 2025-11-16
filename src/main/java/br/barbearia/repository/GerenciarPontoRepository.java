@@ -98,7 +98,6 @@ public class GerenciarPontoRepository {
             novoPonto.setId(proximoId());
             listaDeRegistroDePonto.add(novoPonto);
         }else{
-            return;
         }
     }
 
@@ -125,11 +124,11 @@ public class GerenciarPontoRepository {
 
                 pontosEncontrados.add(pontoBuscado);
 
-                return pontosEncontrados; // Retorna no primeiro item encontrado
+                return pontosEncontrados;
 
             }
         }
-        return null; // Retorna nulo se o loop terminar sem encontrar
+        return null;
     }
 
 }

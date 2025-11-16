@@ -77,12 +77,10 @@ public class GerenciadorJSON<T> {
     public List<T> carregar(){
         try{
             if(!arquivoJson.exists()){
-                return new ArrayList<>(); // Retorna lista vazia se o arquivo não existe
+                return new ArrayList<>();
             }
-            // Lê o arquivo e usa o tipoDaLista para converter o JSON de volta para a Lista<T>
             return objectMapper.readValue(arquivoJson,this.tipoDaLista);
         } catch (Exception e) {
-            // Em caso de erro (ex: JSON corrompido), retorna uma lista vazia
             return new ArrayList<>();
         }
 
@@ -100,7 +98,6 @@ public class GerenciadorJSON<T> {
      */
     public void salvar(List<T> listaParaSalvar){
         try{
-            // Escreve a lista completa no arquivo, formatando o JSON (devido ao INDENT_OUTPUT)
             objectMapper.writeValue(arquivoJson,listaParaSalvar);
         } catch (IOException e) {
             System.out.println("Erro ao salvar no JSON");

@@ -159,10 +159,8 @@ public class ProdutosService {
         Produtos produtoBuscado = produtosRepository.buscarProdutoPorNome(nomeDoProduto);
 
         if(produtoBuscado==null){
-            throw new Exception("Usuário não encontrado"); //A mensagem "Usuário" parece ser um erro de digitação
+            throw new Exception("Usuário não encontrado");
         }
-        // A linha abaixo é redundante, a busca já foi feita
-        // produtosRepository.buscarProdutoPorNome(nomeDoProduto);
         System.out.println("Validado com sucesso");
         return produtoBuscado;
     }
@@ -181,7 +179,6 @@ public class ProdutosService {
             throw new Exception("Nenhum produto cadastrado no estoque.");
         }
 
-        // Validação de integridade dos dados carregados
         for (Produtos produto : produtos) {
             if (produto.getNomeProduto() == null || produto.getNomeProduto().trim().isEmpty()) {
                 throw new Exception("Um dos produtos cadastrados está com o nome inválido.");

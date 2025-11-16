@@ -157,9 +157,9 @@ public class ProdutosRepository {
     public void atualizarProdutoNoEstoque(Produtos novoProduto){
         for(int i = 0; i<listaDeProdutosEstoque.size();i++){
             Produtos estoqueAntigo = listaDeProdutosEstoque.get(i);
-            if(novoProduto.getId()==estoqueAntigo.getId()){} // Bloco if vazio
+            if(novoProduto.getId()==estoqueAntigo.getId()){}
             listaDeProdutosEstoque.set(i,novoProduto);
-            return; // Retorna após processar o índice 0
+            return;
 
         }
     }

@@ -67,13 +67,11 @@ public class RegistroDeVendasServices {
      */
     public RegistroDeVendas registrarVenda(String nomeProduto, LocalDate dataSaida, int usuarioId, double valor, double quantidadeVendida) throws Exception {
 
-        // 1. Validar Usuário
         Usuarios usuario = usuarioRepository.buscarPorId(usuarioId);
         if (usuario == null) {
             throw new Exception("Usuário com ID " + usuarioId + " não encontrado.");
         }
 
-        // 2. Validar Produto
         Produtos produtoEncontrado = null;
         for (Produtos produto : registroDeVendasRepository.produtosDisponiveis) {
             if (produto.getNomeProduto().equalsIgnoreCase(nomeProduto)) {
@@ -86,7 +84,6 @@ public class RegistroDeVendasServices {
             throw new Exception("Produto '" + nomeProduto + "' não encontrado.");
         }
 
-        // 3. Criar o objeto de Venda
         RegistroDeVendas novaVenda = new RegistroDeVendas();
         novaVenda.setNomeProduto(produtoEncontrado.getNomeProduto());
         novaVenda.setSaida(dataSaida);
@@ -94,7 +91,6 @@ public class RegistroDeVendasServices {
         novaVenda.setValor(valor);
         novaVenda.setQuantidadeVendida(quantidadeVendida);
 
-        // 4. Enviar para o Repositório processar
         registroDeVendasRepository.registrarVenda(novaVenda);
 
         System.out.println("Venda registrada com sucesso para o produto " + nomeProduto);

@@ -84,7 +84,6 @@ public class OrdensDeServicoRoles {
         if(novaOrdemDeServico.getClienteCpf().trim().isEmpty()){
             throw new Exception("O cpf não pode ser vazio");
         }
-        // Validação de CPF parece incorreta (deveria ser '!= 11' e checar se '== null' primeiro)
         if(novaOrdemDeServico.getClienteCpf() == null && novaOrdemDeServico.getClienteCpf().replaceAll("[^0-9]","").length()!=11){
             throw new Exception("Verifique o atributo cpf");
         }

@@ -110,7 +110,7 @@ public class AgendamentoServices {
 
         List<LocalTime> horasOcupadas = new ArrayList<>();
         for (Agendamento ag : agendamentosFeitos) {
-            horasOcupadas.add(ag.getHora()); // Ex: 09:00, 11:00
+            horasOcupadas.add(ag.getHora());
         }
 
         agendaCompleta.removeAll(horasOcupadas);

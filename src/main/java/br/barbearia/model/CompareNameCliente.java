@@ -38,18 +38,16 @@ public class CompareNameCliente implements Comparator<Usuarios> {
         String nome1 = usuarios1.getNome();
         String nome2 = usuarios2.getNome();
 
-        // --- Tratamento de Nulos ---
         if(nome1 == null && nome2 == null){
-            return 0; // Ambos nulos, são iguais
+            return 0;
         }
         if(nome1 == null){
-            return 1; // Nulos são "maiores" (vão para o fim)
+            return 1;
         }
         if(nome2 == null){
-            return -1; // Nulos são "maiores" (vão para o fim)
+            return -1;
         }
 
-        // --- Comparação Caractere por Caractere ---
         int tamanhoMinimo = Math.min(nome1.length(),nome2.length());
 
         for(int i = 0; i < tamanhoMinimo; i ++){
@@ -57,20 +55,17 @@ public class CompareNameCliente implements Comparator<Usuarios> {
             char char1 = nome1.charAt(i);
             char char2 = nome2.charAt(i);
 
-            // Comparação case-insensitive
             char1 = Character.toLowerCase(char1);
             char2 = Character.toLowerCase(char2);
 
             if(char1 != char2){
-                return char1 - char2; // Retorna a diferença alfabética
+                return char1 - char2;
             }
 
         }
 
-        // Se um nome é prefixo do outro, o mais curto vem primeiro
         return nome1.length() - nome2.length();
     }
-//Estudar lambda depois.
 
 
 }

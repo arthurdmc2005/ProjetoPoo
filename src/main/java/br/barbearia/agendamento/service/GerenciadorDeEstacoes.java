@@ -57,7 +57,7 @@ public class GerenciadorDeEstacoes {
                 return estacao;
             }
         }
-        return null; // nenhuma disponível
+        return null;
     }
 
     /**
@@ -69,7 +69,7 @@ public class GerenciadorDeEstacoes {
         for (Estacao estacao : estacoes) {
             if (estacao.getId() == id) {
                 estacao.liberar();
-                return; // Encontrou e liberou, pode sair
+                return;
             }
         }
     }
