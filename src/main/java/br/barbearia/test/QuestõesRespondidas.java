@@ -45,6 +45,7 @@ public class QuestõesRespondidas {
         System.out.println("--- Fim da lista de usuários ---");
     }
 
+
     public static void main(String[] args) {
 
         UsuarioRepository usuarioRepository = new UsuarioRepository("BarbeariaComMaven/Usuarios.JSON");
@@ -151,9 +152,7 @@ public class QuestõesRespondidas {
         System.out.println("Acessar a classe FilaEsperaRepository");
         // }
         //Questão 16:{
-        System.out.println("====Questão 16====");
-        System.out.println("Precisa fazer");
-        // }
+        demonstrarQuestao17(usuarioRepository);
         //Questão 17:{
         System.out.println("====Questão 17====");
         demonstrarQuestao17(usuarioRepository);

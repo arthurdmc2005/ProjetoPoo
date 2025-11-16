@@ -41,7 +41,6 @@ public class BalanceService {
      * @return O valor total (double) somado.
      */
     public double gerarBalancoMensal(int mes, int ano) {
-        // 1. Busca todas as ordens usando o método que criamos no Passo 1.
         List<OrdensDeServicoModel> todasAsOrdens = osRepository.listarTodasOrdens();
 
         if (todasAsOrdens == null || todasAsOrdens.isEmpty()) {
@@ -51,33 +50,26 @@ public class BalanceService {
 
         double totalMensal = 0.0;
 
-        // 2. Itera sobre cada ordem de serviço
         for (OrdensDeServicoModel ordem : todasAsOrdens) {
             String dataDaOrdemStr = ordem.getDataDoServico();
 
-            // Ignora ordens sem data
             if (dataDaOrdemStr == null || dataDaOrdemStr.trim().isEmpty()) {
                 continue;
             }
 
             try {
-                // 3. Converte a data (String) para um objeto LocalDate
                 LocalDate dataDaOrdem = LocalDate.parse(dataDaOrdemStr, FORMATADOR_DATA);
 
-                // 4. Verifica se a data pertence ao mês e ano solicitados
                 if (dataDaOrdem.getMonthValue() == mes && dataDaOrdem.getYear() == ano) {
-                    // 5. Soma o valorGasto ao total
                     totalMensal += ordem.getValorGasto();
                 }
 
             } catch (DateTimeParseException e) {
-                // Captura erro se a data no JSON estiver em formato inválido
                 System.err.println("AVISO [Balance]: Ignorando OS ID " + ordem.getOrdemId() +
                         ". Formato de data inválido: '" + dataDaOrdemStr + "'");
             }
         }
 
-        // 6. Retorna o total calculado
         return totalMensal;
     }
 }
