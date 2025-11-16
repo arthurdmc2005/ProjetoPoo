@@ -3,6 +3,8 @@ package br.barbearia.test;
 import br.barbearia.OrdensDeServiço.OrdensDeServicoRepository;
 import br.barbearia.OrdensDeServiço.OrdensDeServicoRoles;
 
+import java.time.LocalDate;
+
 public class TestOrdensDeServico {
 
 
@@ -12,8 +14,10 @@ public class TestOrdensDeServico {
         OrdensDeServicoRepository ordensDeServicoRepository = new OrdensDeServicoRepository("BarbeariaComMaven/OrdensDeServico.JSON");
         OrdensDeServicoRoles ordensDeServicoRoles = new OrdensDeServicoRoles(ordensDeServicoRepository);
         try {
-            ordensDeServicoRoles.registrarOrdensDeServico("Barba e Corte", "01973214612", "Serviço realizado com sucesso foi top", 70,1);
-            ordensDeServicoRepository.salvarNoJson();
+            int total = ordensDeServicoRoles.contadorDeOrdensDeServico();
+            System.out.println("Quantidade de instâncias criadas do tipo Ordens de Serviços: " + total);
+
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

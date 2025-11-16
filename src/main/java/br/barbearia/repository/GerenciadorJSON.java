@@ -33,7 +33,6 @@ public class GerenciadorJSON<T> {
             }
             return objectMapper.readValue(arquivoJson,this.tipoDaLista);
         } catch (Exception e) {
-            System.out.println("Erro ao carregar o JSON");
             return new ArrayList<>();
         }
 

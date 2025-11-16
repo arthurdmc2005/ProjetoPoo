@@ -1,24 +1,35 @@
 package br.barbearia.OrdensDeServiço;
 
+
+
 public class OrdensDeServicoModel {
 
     private int servicoId;
     private String clienteCpf;
     private String funcionarioCpf;
-    private String produtoUtilizado;
     private double valorGasto;
     private String diagnosticoServico;
     private int ordemId;
+    private String dataDoServico;
 
-    public OrdensDeServicoModel(int servicoId, String clienteCpf, String funcionarioCpf, String produtoUtilizado, double valorGasto, String diagnosticoServico, int ordemId) {
+    private static int contadorInstanciaOS = 0;
+
+    public OrdensDeServicoModel(int servicoId, String clienteCpf, String funcionarioCpf, double valorGasto, String diagnosticoServico, int ordemId, String dataDoServico){
         this.servicoId = servicoId;
         this.clienteCpf = clienteCpf;
         this.funcionarioCpf = funcionarioCpf;
-        this.produtoUtilizado = produtoUtilizado;
         this.valorGasto = valorGasto;
         this.diagnosticoServico = diagnosticoServico;
         this.ordemId = ordemId;
+        this.dataDoServico = dataDoServico;
+
+        contadorInstanciaOS++;
     }
+
+    public static int pegarContadorInstancias(){
+        return contadorInstanciaOS;
+    }
+
 
     @Override
     public String toString() {
@@ -26,15 +37,23 @@ public class OrdensDeServicoModel {
                 "servicoId=" + servicoId +
                 ", clienteCpf='" + clienteCpf + '\'' +
                 ", funcionarioCpf='" + funcionarioCpf + '\'' +
-                ", produtoUtilizado='" + produtoUtilizado + '\'' +
                 ", valorGasto=" + valorGasto +
                 ", diagnosticoServico='" + diagnosticoServico + '\'' +
                 ", ordemId=" + ordemId +
+                ", dataDoServico=" + dataDoServico +
                 '}';
     }
 
     public int getServicoId() {
         return servicoId;
+    }
+
+    public String getDataDoServico() {
+        return dataDoServico;
+    }
+
+    public void setDataDoServico(String dataDoServico) {
+        this.dataDoServico = dataDoServico;
     }
 
     public int getOrdemId() {
@@ -55,14 +74,6 @@ public class OrdensDeServicoModel {
 
     public void setClienteCpf(String clienteCpf) {
         this.clienteCpf = clienteCpf;
-    }
-
-    public String getProdutoUtilizado() {
-        return produtoUtilizado;
-    }
-
-    public void setProdutoUtilizado(String produtoUtilizado) {
-        this.produtoUtilizado = produtoUtilizado;
     }
 
     public String getFuncionarioCpf() {

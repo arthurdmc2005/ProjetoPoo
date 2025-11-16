@@ -68,7 +68,7 @@ public class FilaEsperaRepository {
             if(espera.getHoraDesejada() != null && espera.getHoraDesejada() != null){
 
                 if(espera.getDataDesejada().equals(data) &&
-                espera.getHoraDesejada().equals(hora));
+                espera.getHoraDesejada().equals(hora))
 
                 esperandoHorario.add(espera);
             }

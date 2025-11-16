@@ -6,6 +6,22 @@ public class Servicos {
     private double precoBase;
     private int id;
 
+    private static int contadorInstanciasPrivado = 0;
+
+    protected static int contadorInstanciasProtegido = 0;
+
+    public static int pegarContadorInstanciasPrivado(){
+        return contadorInstanciasPrivado;
+    }
+
+    public static void setarContadorInstanciasPrivado(int valor){
+        contadorInstanciasPrivado = valor;
+    }
+
+    public static int pegarContadorInstanciasProtegido(){
+        return contadorInstanciasProtegido;
+    }
+
     public int getId() {
         return id;
     }
@@ -27,9 +43,13 @@ public class Servicos {
         this.descricao = descricao;
         this.precoBase = precoBase;
         this.id = id;
+        contadorInstanciasPrivado++;
+        contadorInstanciasProtegido++;
     }
 
     public Servicos(){
+        contadorInstanciasProtegido++;
+        contadorInstanciasPrivado++;
 
     }
 

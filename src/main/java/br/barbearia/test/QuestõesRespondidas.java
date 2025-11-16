@@ -72,11 +72,11 @@ public class QuestõesRespondidas {
         // }
         //Questão 08:{
         System.out.println("====Questão 08====");
-        System.out.println("Precisa fazer!");
+        System.out.println("Mostrar as classes de ordem de serviço");
         // }
         //Questão 09:{
         System.out.println("====Questão 09====");
-        System.out.println("Mostrar o inicio das classes Repository!");
+        System.out.println("Mostrar o método generico de salvar no JSON");
         // }
         //Questão 10:{
         System.out.println("====Questão 10====");
@@ -95,11 +95,11 @@ public class QuestõesRespondidas {
         // }
         //Questão 12:{
         System.out.println("====Questão 12====");
-        System.out.println("Precisa fazer!");
+        System.out.println("Chamar a ordensDeServicoRoles.contadorDeOrdensDeServico");
         // }
         //Questão 13:{
         System.out.println("====Questão 13====");
-        System.out.println("Acessar a classe CompareteNameCliente");
+        System.out.println("Acessar a classe CompareteNameCliente e ComparateAgendamento");
         // }
         //Questão 14:{
         System.out.println("====Questão 14====");
@@ -111,7 +111,7 @@ public class QuestõesRespondidas {
         // }
         //Questão 16:{
         System.out.println("====Questão 16====");
-        System.out.println("Precisa fazer");
+        System.out.println("Implementado na main usuarios");
         // }
         //Questão 17:{
         System.out.println("====Questão 17====");
